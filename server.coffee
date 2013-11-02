@@ -17,7 +17,6 @@ io = io.listen(server)
 passportTwitter = passportTwitter.Strategy
 #passportFacebook = passportFacebook.Strategy
 users = {}
-userAuthId = ''
 host = 'node.la'
 port = 5000
 db = mongoose.connect 'mongodb://127.0.0.1:27017/claru'
@@ -115,7 +114,8 @@ app.get '/', (req, res)->
 	if req.user
 		Notes.find {user:req.user.id, deleted:0}, (err, notes) ->
 			res.render 'index', {user:req.user, notes:notes}
-			socketAuthed(req.user)
+#			req.user.check = 0
+			#socketAuthed(req.user, req.user.check)
 	else
 		res.render 'index' #, {user:req.user, notes:notes}
 	
@@ -124,7 +124,9 @@ app.get '/note/:id', (req, res) ->
 	noteId = req.params.id
 	Notes.find { id:noteId, user:req.user.id}, (err, note) ->
 		res.render 'note', {user:req.user, note:note}
-		socketAuthed(req.user)
+		if req.user.check != 1
+			req.user.check = 1
+			socketAuthed(req.user)
 
 
 
