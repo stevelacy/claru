@@ -124,6 +124,7 @@ app.get '/note/:id', (req, res) ->
 	noteId = req.params.id
 	Notes.find { id:noteId, user:req.user.id}, (err, note) ->
 		res.render 'note', {user:req.user, note:note}
+		socketAuthed(req.user)
 
 
 
@@ -179,7 +180,7 @@ saveNote = (title, id, message, user) ->
 		deleted: 0
 		user: user
 
-	query = {id:id, user:userAuthId}
+	query = {id:id, user:user}
 	Notes.update query, saveNoteData, (err, number, response) ->
 		if err 
 			console.error err
