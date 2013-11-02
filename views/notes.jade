@@ -1,0 +1,6 @@
+#noteList
+	- each note in notes
+		a(href='/note/#{note.id}')
+			li #{note.title}
+				#deleteItem(data-id='#{note.id}') X
+

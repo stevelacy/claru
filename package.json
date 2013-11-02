@@ -1,0 +1,14 @@
+{
+	"name": "Nota",
+	"dependencies": {
+		"express": "*",
+		"jade": "*",
+		"socket.io": "*",
+		"coffee-script": "*",
+		"mongoose": "*",
+		"passport": "*",
+		"passport-twitter": "*",
+		"passport-facebook": "*"
+
+	}
+}

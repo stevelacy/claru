@@ -1,0 +1,237 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,100);
+
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background: #eaeaea;
+}
+body, textarea{
+	font-family: 'Roboto', sans-serif;
+}
+
+textarea{
+	border: 1px solid #efefef;
+	background: #fafafa;
+	padding: 1%;
+	margin-top: 10px;
+	width: 97%;
+}
+input, button{
+	padding: 10px;
+}
+input, textarea:focus{
+	outline: none;
+	border: 1px solid #dedede;
+}
+
+button{
+	background: #efefef;
+	border: none;
+	border-bottom: 2px solid #cdcdcd;
+	border-radius: 2px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+button:hover, #closeNewNote:hover{
+	background: rgba(20 ,20, 20, .1);
+	color: #262626;
+}
+
+
+a{
+	color: #363636;
+	text-decoration: none;
+}
+
+
+
+.trans {
+ 	-webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;	
+}
+
+
+#content{
+	position: relative;
+	padding: 1%;
+	height: 100%;
+}
+
+
+
+
+#newNoteDiv{
+	position: absolute;
+	top: 50px;
+	left: 10%;
+	width: 70%;
+	height: 150px;
+	padding: 10% 5% 20px 5%;
+	background: #fafafa;
+	box-shadow: 0px 0px 100px #cdcdcd;
+	z-index: 9;
+	 
+} #newNoteDiv input{
+	width: 50%;
+	margin: 0px 0px 20px 25%;
+} #newNoteDiv .submit{
+	width: 20%;
+	margin-left: 40%
+}
+#closeNewNote{
+	position: absolute;
+	top:0;
+	right: 0px;
+	width: 25px;
+	height: 30px;
+	padding-left: 7px;
+	background: #fafafa;
+	font-size: 25px;
+	color: #555;
+	cursor: pointer;
+}
+
+#noteList{
+	margin-top: 20px;
+}
+
+#noteList li{
+	position: relative;
+	list-style: none;
+	height: 20px;
+	width: 90%;
+	background: #fafafa;
+	padding: 20px 5% 20px 5%;
+	border-bottom: 1px solid #cdcdcd;
+}
+#noteList li:hover{
+	background: #fefefe;
+}
+#noteList li #deleteItem{
+	position: absolute;
+	top: 20px;
+	right: 10%;
+	width: 20px;
+	height: 20px;
+	color: #cdcdcd;
+}
+#noteList li #deleteItem:hover{
+	color:#A52A2A;
+}
+#noteBox{
+	position: relative;
+	margin: 1% 0 0 0;
+	width: 98%;
+	padding: 1%;
+	background: #fafafa;
+}
+
+#save{
+	position: absolute; 
+	top: 15px;
+	left: 225px;
+	 
+}
+#logout{
+	position: absolute;
+	top: 1%;
+	left: 70px;
+}
+.buttonGreen{
+	background: #659D32;
+	color: #fff;
+}
+.buttonGreen:hover{
+	background: #608341;
+}
+
+
+#loginBox{
+	width: 40%;
+	height: 100px;
+	padding: 50px 0 0 0;
+	margin: 10% 0 0 30%;
+	background: #efefef;
+	text-align: center;
+	box-shadow: 0 0 1px #cdcdcd;
+}
+#loginBox #twitter{
+	min-width: 150px;
+	max-width: 50%;
+	height: 10px;
+	padding: 20px 20px 30px 20px;
+	display: inline-block;
+	box-shadow: 0 0 1px #cdcdcd;
+}
+
+#menu{
+	margin: 10px 0 0 1%;
+}
+
+#userDiv{
+	position: absolute;
+	top: 10px;
+	right: 1%;
+	height: 40px;
+	min-width: 200px;
+	background: #efefef;
+	z-index: 9;
+	box-shadow:  0px 2px 1px #cdcdcd;
+	overflow: hidden;
+}
+#userDiv img{
+	width: 40px;
+}
+#userDiv span{
+	position: absolute;
+	top: 8px;
+	left: 42px;
+
+}
+
+/* the extension's exact size*/
+@media all and (width: 550px){
+	body{
+		overflow: hidden;
+	}
+ 
+}
+
+
+
+
+
+::-webkit-scrollbar { 
+	width: 10px; 
+} 
+::-webkit-scrollbar-track { 
+	background: #efefef; 
+	-webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1); 
+} 
+::-webkit-scrollbar-track:hover{
+	background: #dedede;
+}
+::-webkit-scrollbar-thumb { 
+	background: #CCC;
+	-webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2); 
+	border-radius: 1px;
+} 
+::-webkit-scrollbar-thumb:hover { 
+	background: #AAA; 
+} 
+::-webkit-scrollbar-thumb:active { 
+	background: #888; 
+-webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); 
+}
+
+
+::selection {
+	background:#000;
+	color:#fff;
+}

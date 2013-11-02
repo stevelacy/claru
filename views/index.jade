@@ -1,0 +1,12 @@
+!!!5
+html
+	head
+		title Clárú
+		include ./head
+	body
+		- if (user)
+			include ./menu
+			include ./notes
+			include ./newnote
+		- else
+			include ./login

@@ -1,0 +1,17 @@
+- if (user)
+	!!!5
+	html
+		head
+			title Clárú
+			include ./head
+		body
+			#content
+				include ./menu
+				#noteBox
+					- each item in note
+						input#noteTitle(type='text' name='noteTitle' placeholder='Title' value='#{item.title}')
+						#save
+						br
+						textarea#noteContent(name='noteContent' cols='50' rows='20' placeholder='Note...') #{item.message}
+			include ./newnote
+
