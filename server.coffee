@@ -8,6 +8,7 @@ passportTwitter = require 'passport-twitter'
 #passportFacebook = require 'passport-facebook'
 
 keys = require './keys'
+models = require './models'
 
 
 app = express()
@@ -47,44 +48,10 @@ app.configure () ->
 
 
 
+Users = models.Users
+Notes = models.Notes
 
 
-
-
-
-
-userSchema = new mongoose.Schema 
-  username: type: String
-  name: type: String
-  id: type: Number
-  icon: type: String
-  source: String
-
-
-
-noteSchema = new mongoose.Schema
-	title: type: String
-	message: type: String
-	id: type: Number
-	deleted: type: Number
-	user: type: Number
-
-userSchema.set 'autoIndex', false
-noteSchema.set 'autoIndex', false
-
-Users = mongoose.model 'Users', userSchema
-Notes = mongoose.model 'Notes', noteSchema
-
-###
-note = new Notes
-	title: 'Note Title'
-	message: 'Note Message'		
-	id: 1
-	deleted: 0
-	user: 1
-
-note.save()
-###
 
 
 
@@ -97,25 +64,14 @@ passport.use new passportTwitter(
   callbackURL: 'http://'+ host + '/auth/twitter/callback'
 , (token, tokenSecret, profile, done) ->
 # Check it against the database:
-	Users.findOne 'username' : profile.username, (err, user) ->
+	Users.findOne {'username' : profile.username}, (err, user) ->
 		if user
 			# user is already in database.  --TODO Add the login time to db
-			# Set the global user id
-			userAuthId = user.id
 		else 
-			# Get the last user id and add 1 to it
-			Users.findOne {}, {}, sort: _id: -1, (err, user) ->
-				if user
-					newId = user.id + 1
-				else
-					newId = 1
-				# Set the global user id
-				userAuthId = newId
-				# user is not registered. Register it
 				Register = new Users 
 					'username': profile.username
 					'name': profile.name
-					'id': userAuthId
+					'id': profile.id
 					'source': 'twitter'
 					'icon': profile.icon
 				Register.save()
@@ -136,31 +92,13 @@ passport.use new passportTwitter(
  
 ) # end passportTwitter
 
-# Facebook login
-###
-passport.use new passportFacebook(
-  clientID: '1431883733699728'
-  clientSecret: '50e03dc7c6147347e63366bf32d7e6a3'
-  callbackURL: "http://node.la/auth/facebook/callback"
-, (accessToken, refreshToken, profile, done) ->
-# get FB user info	
-	user = users[profile.id] or (users[profile.id] =
-    id: profile.id
-    username: profile.username
-    name: profile.displayName
-    icon: 'http://graph.facebook.com/' + profile.id + '/picture'
-  )
-  done null, user
-  console.log profile
-)
-###
-
 
 passport.serializeUser (user, done) ->
 	done null, user.id
 
 
 passport.deserializeUser (id, done) ->
+	#Users.findOne {'id': id}, done
 	user = users[id]
 	done null, user
 
@@ -174,13 +112,17 @@ passport.deserializeUser (id, done) ->
 
 
 app.get '/', (req, res)->
-	Notes.find {user:userAuthId, deleted:0}, (err, notes) ->
-		res.render 'index', {user:req.user, notes:notes}
+	if req.user
+		Notes.find {user:req.user.id, deleted:0}, (err, notes) ->
+			res.render 'index', {user:req.user, notes:notes}
+			socketAuthed(req.user)
+	else
+		res.render 'index' #, {user:req.user, notes:notes}
 	
 
 app.get '/note/:id', (req, res) ->
 	noteId = req.params.id
-	Notes.find { id:noteId, user:userAuthId}, (err, note) ->
+	Notes.find { id:noteId, user:req.user.id}, (err, note) ->
 		res.render 'note', {user:req.user, note:note}
 
 
@@ -190,12 +132,6 @@ app.get '/note/:id', (req, res) ->
 app.get '/auth/twitter', passport.authenticate('twitter')
 app.get '/auth/twitter/callback',
 	passport.authenticate 'twitter', {successRedirect:'/', falureRedirect:'/auth/twitter'}
-
-###	 Facebook
-app.get '/auth/facebook', passport.authenticate('facebook', {scope: 'email'})
-app.get '/auth/facebook/callback',
-	passport.authenticate 'facebook', {successRedirect: '/', falureRedirect: '/auth/facebook'}
-###
 
 
 app.get '/logout', (req, res) ->
@@ -212,7 +148,7 @@ app.post '/', (req, res) ->
 		else
 			noteId = 1
 
-		newNote(req.body.newNote, noteId)
+		newNote(req.body.newNote, noteId, req.user.id)
 		res.redirect('/note/' + noteId)
 
 
@@ -223,25 +159,25 @@ app.post '/', (req, res) ->
 
 # Functions
 
-newNote = (title, id) ->
+newNote = (title, id, user) ->
 	newNoteData = new Notes
 		title: title
 		message: ''
 		id: id
 		deleted: 0
-		user: userAuthId
+		user: user
 	newNoteData.save (err, note) ->
 		if err
 			return console.error(err)
 			console.log 'new note saved'
 
-saveNote = (title, id, message) ->
+saveNote = (title, id, message, user) ->
 	saveNoteData = 
 		title: title
 		message: message
 		id: id
 		deleted: 0
-		user: userAuthId
+		user: user
 
 	query = {id:id, user:userAuthId}
 	Notes.update query, saveNoteData, (err, number, response) ->
@@ -249,24 +185,24 @@ saveNote = (title, id, message) ->
 			console.error err
 		console.log 'node Saved'
 
-deleteNote = (id) ->
-	Notes.findOne {id:id}, (err, note) ->
+deleteNote = (id, user) ->
+	Notes.findOne {id:id, 'user':user}, (err, note) ->
 		note.deleted = 1
 		note.save()
 
 
 
 # Sockets!
-
-io.sockets.on 'connection', (socket) ->
-	console.log __dirname
-	socket.join userAuthId
-	socket.on 'note', (note) ->
-		socket.broadcast.to(userAuthId).emit 'note', {message:note.message, title:note.title, id:note.id}
-		console.log note
-		saveNote(note.title, note.id, note.message)
-	socket.on 'delete', (note) ->
-		deleteNote(note.id)
+socketAuthed = (user) ->
+	io.sockets.on 'connection', (socket) ->
+		console.log __dirname
+		socket.join user.id
+		socket.on 'note', (note) ->
+			socket.broadcast.to(user.id).emit 'note', {message:note.message, title:note.title, id:note.id}
+			console.log note
+			saveNote(note.title, note.id, note.message, user.id)
+		socket.on 'delete', (note) ->
+			deleteNote(note.id, user.id)
 
 server.listen port
 console.log port
