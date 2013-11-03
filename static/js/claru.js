@@ -42,11 +42,11 @@ socket.on("note", function (note){
  	$("#newNoteDiv").fadeToggle();
  	$("#newNoteTitle").focus();
  })
- $("#content #deleteItem").click(function(e){
- 	e.preventDefault();
- 	var itemId = $(this).attr("data-id");
- 	socket.emit("delete", {id:itemId});
- 	$(this).parent("li").fadeOut();
+ $("#deleteItem").click(function(e){
+		e.preventDefault();
+		var itemId = $(this).attr("data-id");
+		socket.emit("delete", {id:itemId});
+		$(this).parent("li").fadeOut();
  	 
  })
 
