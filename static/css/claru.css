@@ -196,15 +196,15 @@ a{
 
 }
 
-/* the extension's exact size*/
-@media all and (width: 550px){
-	body{
-		overflow: hidden;
+
+
+@media all and (max-width: 550px){
+	
+	#loginBox{
+		width: 90%;
+		margin: 10% 0 0 5%;
 	}
- 
 }
-
-
 
 
 
