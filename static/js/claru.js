@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 //var socket = io.connect("http://192.168.0.5:5000");
-var socket = io.connect("http://node:5000");
+var socket = io.connect("http://node.la:5000");
 
 var noteTitle = $("#noteTitle").text();
 
