@@ -1,7 +1,7 @@
 Claru
 ===== 
-Clárú
------
+**Clárú** (*register - Irish*)
+
 Realtime node.js websocket note app
 
 
