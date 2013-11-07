@@ -42,7 +42,7 @@ socket.on("note", function (note){
  	$("#newNoteDiv").fadeToggle();
  	$("#newNoteTitle").focus();
  })
- $("#deleteItem").click(function(e){
+ $("li #deleteItem").click(function(e){
 		e.preventDefault();
 		var itemId = $(this).attr("data-id");
 		socket.emit("delete", {id:itemId});
@@ -61,12 +61,10 @@ $("#noteContent, #noteTitle").on('input', function(){
 
  
 
-
-
-
-
-
-
+// Check to see if it is the android app
+if (window.navigator.userAgent == "claru-app") {
+	$('#menu').hide()
+}
 
 
 

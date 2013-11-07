@@ -8,10 +8,15 @@
 			#content
 				include ./menu
 				#noteBox
+					- if (note[0]){
 					- each item in note
 						input#noteTitle(type='text' name='noteTitle' placeholder='Title' value='#{item.title}')
 						#save
 						br
 						textarea#noteContent(name='noteContent' cols='50' rows='20' placeholder='Note...') #{item.message}
+					- } 
+					- else{
+						h2 Note not found!
+					-	}	
 			include ./newnote
 

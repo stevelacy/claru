@@ -122,7 +122,7 @@ app.get '/', (req, res) ->
 
 app.get '/note/:id', (req, res) ->
 	noteId = req.params.id
-	Notes.find { id:noteId, user:req.user.id}, (err, note) ->
+	Notes.find { id:noteId, user:req.user.id, deleted:0}, (err, note) ->
 		res.render 'note', {user:req.user, note:note}
 		if req.user.check != 1
 			req.user.check = 1
