@@ -110,7 +110,7 @@ passport.deserializeUser (id, done) ->
 
 
 
-app.get '/', (req, res)->
+app.get '/', (req, res) ->
 	if req.user
 		Notes.find {user:req.user.id, deleted:0}, (err, notes) ->
 			res.render 'index', {user:req.user, notes:notes}
