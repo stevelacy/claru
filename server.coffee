@@ -191,8 +191,11 @@ saveNote = (title, id, message, user) ->
 
 deleteNote = (id, user) ->
 	Notes.findOne {id:id, 'user':user}, (err, note) ->
-		note.deleted = 1
-		note.save()
+		if err 
+			console.log err
+		else	
+			note.deleted = 1
+			note.save()
 
 
 
