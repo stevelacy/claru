@@ -3,6 +3,8 @@ meta(name='mobile-web-app-capable' content='yes')
 script(src='//code.jquery.com/jquery-2.0.3.min.js')
 script(src='/socket.io/socket.io.js')
 script(src='/js/claru.js')
+- if (user) 
+	script(type='text/javascript') function getUser() {window.Android.sendUser("#{user.username}");}
 link(href='/css/claru.css' rel='stylesheet')
 link(rel='shortcut icon' sizes='196x196' href='/images/logo-196.png')
 link(rel='shortcut icon' type='image/png' href="/images/logo-196.png")
