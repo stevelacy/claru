@@ -113,7 +113,7 @@ passport.deserializeUser (id, done) ->
 app.get '/', (req, res) ->
 	if req.user
 		q = Notes.find {user:req.user.id, deleted:0}
-		q.sort('date')
+		q.sort({'date': -1})
 		q.exec (err, notes) ->
 			res.render 'index', {user:req.user, notes:notes}
 			if req.user.check != 1
