@@ -15,6 +15,7 @@ noteSchema = new mongoose.Schema
 	id: type: Number
 	deleted: type: Number
 	user: type: Number
+	date: type: String
 
 userSchema.set 'autoIndex', false
 noteSchema.set 'autoIndex', false

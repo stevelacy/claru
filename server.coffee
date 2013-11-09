@@ -112,7 +112,9 @@ passport.deserializeUser (id, done) ->
 
 app.get '/', (req, res) ->
 	if req.user
-		Notes.find {user:req.user.id, deleted:0}, (err, notes) ->
+		q = Notes.find {user:req.user.id, deleted:0}
+		q.sort('date')
+		q.exec (err, notes) ->
 			res.render 'index', {user:req.user, notes:notes}
 			if req.user.check != 1
 				req.user.check = 1
@@ -170,6 +172,7 @@ newNote = (title, id, user) ->
 		id: id
 		deleted: 0
 		user: user
+		date: new Date().getTime()
 	newNoteData.save (err, note) ->
 		if err
 			return console.error(err)
@@ -182,6 +185,7 @@ saveNote = (title, id, message, user) ->
 		id: id
 		deleted: 0
 		user: user
+		date: new Date().getTime()
 
 	query = {id:id, user:user}
 	Notes.update query, saveNoteData, (err, number, response) ->
