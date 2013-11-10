@@ -6,7 +6,7 @@ var socket = io.connect("http://node.la:5000");
 var noteTitle = $("#noteTitle").text();
 
 var url = window.location.pathname;
-var id = url.substring(url.lastIndexOf('/') + 1);
+var id = url.substring(url.lastIndexOf("/") + 1);
 
 
 
@@ -51,7 +51,7 @@ socket.on("note", function (note){
  })
 
 
-$("#noteContent, #noteTitle").on('input', function(){
+$("#noteContent, #noteTitle").on("input", function(){
 	var note = $("#noteContent").val();
 	var noteTitle = $("#noteTitle").val();
 	sendNote(note, noteTitle, id);
@@ -63,7 +63,7 @@ $("#noteContent, #noteTitle").on('input', function(){
 
 // Check to see if it is the android app
 if (window.navigator.userAgent == "claru-app") {
-	$('#menu').hide()
+	$("#menu").hide()
 }
 
 
@@ -77,6 +77,14 @@ $("#login").click(function(){
 })
 
 
+// drag the li to delete
+$("#noteList li").on("draginit", function(e, drag){
+	e.preventDefault()
+	drag.horizontal();
+	var itemId = $(this).find("#deleteItem").attr("data-id");
+	socket.emit("delete", {id:itemId});
+	$(this).fadeOut()
+})
 
 
 });
