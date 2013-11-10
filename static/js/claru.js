@@ -77,13 +77,14 @@ $("#login").click(function(){
 })
 
 
-// drag the li to delete
+// drag the li to delete TODO: send the socket delete
 $("#noteList li").on("draginit", function(e, drag){
 	e.preventDefault()
 	drag.horizontal();
+	drag.revert();
 	var itemId = $(this).find("#deleteItem").attr("data-id");
-	socket.emit("delete", {id:itemId});
-	$(this).fadeOut()
+	//socket.emit("delete", {id:itemId});
+	//$(this).fadeOut()
 })
 
 
