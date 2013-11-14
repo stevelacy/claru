@@ -57,39 +57,32 @@ Notes = models.Notes
 # Set Passport variables
 # 
 #Twitter login
-passport.use new passportTwitter(
+passport.use new passportTwitter
   consumerKey: keys.consumerKey
   consumerSecret: keys.consumerSecret
   callbackURL: 'http://'+ host + '/auth/twitter/callback'
 , (token, tokenSecret, profile, done) ->
 # Check it against the database:
-	Users.findOne {'username' : profile.username}, (err, user) ->
-		if user
-			# user is already in database.  --TODO Add the login time to db
-		else 
-				Register = new Users 
-					'username': profile.username
-					'name': profile.name
-					'id': profile.id
-					'source': 'twitter'
-					'icon': profile.icon
-				Register.save()
-				console.log 'registering user'
-			
-			
-
-
-# Set the user vars as needed:
-  user = users[profile.id] or (users[profile.id] =
-    id: profile.id
-    username: profile.username
-    name: profile.displayName
-    icon: profile.photos[0].value
-  )
-  done null, user
-  #console.log profile
- 
-) # end passportTwitter
+		Users.findOne {id: profile.id}, (err, user) ->
+			return done if err?
+			userData = 
+				username: profile.username
+				name: profile.name
+				id: profile.id
+				source: 'twitter'
+				icon: profile.photos[0].value
+			if user?
+				# user is already in database.  --TODO Add the login time to db
+				user.set userData
+				user.check = 0
+				user.save done
+				console.log 'returning user'
+				return done null, user
+			else 
+				Users.create userData, (err, user) ->
+					return done if err?
+					done null, user
+					console.log user	
 
 
 passport.serializeUser (user, done) ->
@@ -97,9 +90,7 @@ passport.serializeUser (user, done) ->
 
 
 passport.deserializeUser (id, done) ->
-	#Users.findOne {'id': id}, done
-	user = users[id]
-	done null, user
+	Users.findOne {id: id}, done
 
 #end passport variables
 
@@ -111,19 +102,18 @@ passport.deserializeUser (id, done) ->
 
 
 app.get '/', (req, res) ->
-	if req.user
-		q = Notes.find {user:req.user.id, deleted:0}
-		q.sort({'date': -1})
-		q.exec (err, notes) ->
-			res.render 'index', {user:req.user, notes:notes}
-			if req.user.check != 1
-				req.user.check = 1
-				socketAuthed(req.user)
-	else
-		res.render 'index' #, {user:req.user, notes:notes}
+	return res.render 'index' unless req.user?
+	q = Notes.find {user:req.user.id, deleted:0}
+	q.sort({'date': -1})
+	q.exec (err, notes) ->
+		res.render 'index', {user:req.user, notes:notes}
+		if req.user.check != 1
+			req.user.check = 1
+			socketAuthed(req.user)
 	
 
 app.get '/note/:id', (req, res) ->
+	return res.redirect '/' unless req.user?
 	noteId = req.params.id
 	Notes.find { id:noteId, user:req.user.id, deleted:0}, (err, note) ->
 		res.render 'note', {user:req.user, note:note}
@@ -137,7 +127,7 @@ app.get '/note/:id', (req, res) ->
 #Twitter
 app.get '/auth/twitter', passport.authenticate('twitter')
 app.get '/auth/twitter/callback',
-	passport.authenticate 'twitter', {successRedirect:'/', falureRedirect:'/auth/twitter'}
+	passport.authenticate 'twitter', {successRedirect:'/', falureRedirect:'/login'}
 
 
 app.get '/logout', (req, res) ->
