@@ -1,14 +1,18 @@
 {
 	"name": "Nota",
+	"author":"Steve Lacy - slacy.me",
+	"version": "0.1.0",
 	"dependencies": {
 		"express": "*",
 		"jade": "*",
 		"socket.io": "*",
 		"coffee-script": "*",
 		"mongoose": "*",
+		"connect-mongo":"*",
 		"passport": "*",
 		"passport-twitter": "*",
-		"passport-facebook": "*"
+		"passport-facebook": "*",
+		"passport.socketio": "1.2.1"
 
 	}
 }

@@ -17,4 +17,5 @@ node_modules
 *.sublime-workspace
 
 #ignore the app key file:
-keys.coffee
+*keys.*
+server/keys.*
