@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-//var socket = io.connect("http://192.168.0.5:5000");
-var socket = io.connect("http://node.la:5000");
+var host = "node.la";
+var socket = io.connect("http://"+ host +":5000");
 
 var noteTitle = $("#noteTitle").text();
 
@@ -33,22 +33,31 @@ socket.on("note", function (note){
 		$("#noteTitle").val(note.title);
 	}
 })
+socket.on("share", function (url){
+	$("#share").replaceWith("<div class='al-right'>Public URL:<input type='text' id='url' value='"+ host + "/" + url.share +"'></div>");
+})
 
 
 
 
 
- $("#newNote, #closeNewNote").click(function(){
+$("#newNote, #closeNewNote").click(function(){
  	$("#newNoteDiv").fadeToggle();
  	$("#newNoteTitle").focus();
  })
- $("li #deleteItem").click(function(e){
+$("li #deleteItem").click(function(e){
 		e.preventDefault();
 		var itemId = $(this).attr("data-id");
 		socket.emit("delete", {id:itemId});
 		$(this).parent("li").fadeOut();
  	 
  })
+$("#share").click(function(){
+	socket.emit("share", {share:$(this).attr("data-id")})
+})
+$("#url").click(function(){
+	$(this).select()
+})
 
 
 $("#noteContent, #noteTitle").on("input", function(){
@@ -63,7 +72,7 @@ $("#noteContent, #noteTitle").on("input", function(){
 
 // Check to see if it is the android app
 if (window.navigator.userAgent == "claru-app") {
-	$("#menu").hide()
+	$("#menu, .share").hide()
 }
 
 
@@ -86,6 +95,7 @@ $("#noteList li").on("draginit", function(e, drag){
 	//socket.emit("delete", {id:itemId});
 	//$(this).fadeOut()
 })
+
 
 
 });

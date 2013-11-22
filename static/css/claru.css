@@ -11,6 +11,7 @@ body{
 }
 body, textarea{
 	font-family: 'Roboto', sans-serif;
+	font-size: .9em;
 }
 
 textarea{
@@ -57,6 +58,10 @@ a{
 }
 
 
+.al-right{
+	float: right;
+}
+
 .content{
 	position: relative;
 	padding: 1%;
@@ -99,13 +104,14 @@ a{
 
 #noteList{
 	margin-top: 20px;
+	min-height: 100px;
 }
 
 #noteList li{
 	position: relative;
 	list-style: none;
-	height: 20px;
-	width: 90%;
+	height: 55px;
+	width: 100%;
 	background: #fafafa;
 	padding: 20px 5% 20px 5%;
 	border-bottom: 1px solid #cdcdcd;
