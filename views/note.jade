@@ -5,9 +5,9 @@
 			title Clárú
 			include ./head
 		body
-			#content
+			.content
 				include ./menu
-				#noteBox
+				.noteBox
 					- if (note[0]){
 					- each item in note
 						input#noteTitle(type='text' name='noteTitle' placeholder='Title' value='#{item.title}')
