@@ -1,0 +1,23 @@
+!!!5
+html
+	head
+		include ./head
+		- if (note[0]){
+		title Clárú - #{note[0].title}
+	body
+		.content
+		.spacer
+		.box-center.bg-white.inline-block.box-shadow-light.box-width
+					h2.align-center #{note[0].title}
+					.spacer-50
+					p.align-left
+						| #{note[0].message}
+	-	}
+	-	else{
+	body
+		.content
+		.spacer
+		.box
+			h2 Note not found!
+
+	-	}

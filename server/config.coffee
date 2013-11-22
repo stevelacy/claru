@@ -1,5 +1,6 @@
 module.exports =
 	host: 'node.la'
+	shortUrlHost: 'node.la'
 	port: 5000
 	db: 'mongodb://127.0.0.1:27017/claru'
 	mongo:

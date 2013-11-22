@@ -16,6 +16,7 @@ noteSchema = new mongoose.Schema
 	deleted: type: Number
 	user: type: Number
 	date: type: Number
+	shareurl: type: String
 
 userSchema.set 'autoIndex', false
 noteSchema.set 'autoIndex', false

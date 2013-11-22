@@ -9,6 +9,7 @@ server = require './httpserver'
 
 deleteNote = require './functions/deleteNote'
 saveNote = require './functions/saveNote'
+shareNote = require './functions/shareNote'
 
 io = io.listen server
 
@@ -41,6 +42,10 @@ io.sockets.on 'connection', (socket) ->
 		console.log 'deleting note: ' + note.id
 		deleteNote(note.id, user.id)
 
+	socket.on 'share', (share) ->
+		console.log share
+		shareNote share, user.id, (data) ->
+			socket.emit 'share', {share:data}
 
 
 

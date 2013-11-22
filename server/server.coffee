@@ -46,9 +46,17 @@ app.get '/note/:id', (req, res) ->
 	return res.redirect '/' unless req.user?
 	noteId = req.params.id
 	Notes.find { id:noteId, user:req.user.id, deleted:0}, (err, note) ->
-		res.render 'note', {user:req.user, note:note}
+		res.render 'note', {user:req.user, note:note, shareurl:config.shortUrlHost}
 
+app.get '/logout', (req, res) ->
+	req.logout()
+	res.redirect '/'
 
+app.get '/:share', (req, res) ->
+	q = Notes.find {shareurl:req.params.share, deleted:0}
+	q.sort({'date': -1})
+	q.exec (err, notes) ->
+		res.render 'share', {note:notes}
 
 
 # Twitter
@@ -57,9 +65,7 @@ app.get '/auth/twitter/callback',
 	passport.authenticate 'twitter', {successRedirect:'/', falureRedirect:'/login'}
 
 
-app.get '/logout', (req, res) ->
-	req.logout()
-	res.redirect '/'
+
 
 
 # Now for the app.post functions

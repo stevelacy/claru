@@ -11,7 +11,16 @@
 					- if (note[0]){
 					- each item in note
 						input#noteTitle(type='text' name='noteTitle' placeholder='Title' value='#{item.title}')
-						#save
+						- if (note[0].shareurl){
+							.al-right
+								| Public URL:
+								input#url.share(type='text' value='http://#{shareurl + "/" + item.shareurl}')
+						-	}
+						-	else{
+							button.al-right#share.share(data-id='#{item.id}') Share Note
+						-	}
+
+						
 						br
 						textarea#noteContent(name='noteContent' cols='50' rows='20' placeholder='Note...') #{item.message}
 					- } 
