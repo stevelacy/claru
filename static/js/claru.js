@@ -11,6 +11,8 @@ var id = url.substring(url.lastIndexOf("/") + 1);
 
 
  $("#newNoteDiv").hide();
+ $("#noteSettings .menu").hide();
+ $("#divDelete, #divShare").hide();
 
  $("#username").focus();
 
@@ -36,12 +38,15 @@ socket.on("note", function (note){
 socket.on("share", function (url){
 	$("#share").replaceWith("<div class='al-right'>Public URL:<input type='text' id='url' value='"+ host + "/" + url.share +"'></div>");
 })
+socket.on("unshare", function (url){
+	$("#divShare").fadeToggle();
+})
 
 
 
 
 
-$("#newNote, #closeNewNote").click(function(){
+$("#newNote").click(function(){
  	$("#newNoteDiv").fadeToggle();
  	$("#newNoteTitle").focus();
  })
@@ -55,8 +60,24 @@ $("li #deleteItem").click(function(e){
 $("#share").click(function(){
 	socket.emit("share", {share:$(this).attr("data-id")})
 })
+$("#unShare").click(function(){
+	socket.emit("unshare", {unshare:$(this).attr("data-id")})
+	console.log($(this).attr("data-id"))
+})
 $("#url").click(function(){
 	$(this).select()
+})
+$("#noteSettings").click(function(){
+	$("#noteSettings .menu").fadeToggle();
+})
+$("#menuShare").click(function(){
+	$("#divShare").fadeToggle();
+})
+$("#menuDelete").click(function(){
+	$("#divDelete").fadeToggle();
+})
+$("body #closeDiv").click(function(){
+	$(this).parent().parent().fadeToggle();
 })
 
 
