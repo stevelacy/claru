@@ -1,7 +1,7 @@
 {
 	"name": "Nota",
 	"author":"Steve Lacy - slacy.me",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"dependencies": {
 		"express": "*",
 		"jade": "*",
