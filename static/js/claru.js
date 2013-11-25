@@ -93,7 +93,7 @@ $("#noteContent, #noteTitle").on("input", function(){
 
 // Check to see if it is the android app
 if (window.navigator.userAgent == "claru-app") {
-	$("#menu, .share").hide()
+	$("#menu, .share, #noteSettings").hide()
 }
 
 
@@ -108,7 +108,7 @@ $("#login").click(function(){
 
 
 // drag the li to delete TODO: send the socket delete
-$("#noteList li").on("draginit", function(e, drag){
+$(".noteList li").on("draginit", function(e, drag){
 	e.preventDefault()
 	drag.horizontal();
 	drag.revert();

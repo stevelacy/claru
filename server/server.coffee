@@ -13,6 +13,7 @@ server = require './httpserver'
 require './sockets'
 # Functions
 newNote = require './functions/newNote'
+newTodo = require './functions/newTodo'
 
 mongoose.connect config.db
 
@@ -26,6 +27,7 @@ mongoose.connection.once 'connected', ->
 
 Users = models.Users
 Notes = models.Notes
+Todos = models.Todos
 
 
 
@@ -40,13 +42,26 @@ app.get '/', (req, res) ->
 	q.sort({'date': -1})
 	q.exec (err, notes) ->
 		res.render 'index', {user:req.user, notes:notes}
-	
+
+app.get '/todos', (req, res) ->
+	return res.redirect '/' unless req.user?
+	q = Todos.find {user:req.user.id, deleted:0}
+	q.sort({'date': -1})
+	q.exec (err, todos) ->
+		res.render 'todos', {user:req.user, todos:todos}
 
 app.get '/note/:id', (req, res) ->
 	return res.redirect '/' unless req.user?
 	noteId = req.params.id
 	Notes.find { id:noteId, user:req.user.id, deleted:0}, (err, note) ->
 		res.render 'note', {user:req.user, note:note, shareurl:config.shortUrlHost}
+
+app.get '/todo/:id', (req, res) ->
+	return res.redirect '/' unless req.user?
+	todoId = req.params.id
+	Todos.find {id:todoId, user:req.user.id, deleted:0}, (err, todo) ->
+		res.render 'todo', {user:req.user, todo:todo}
+
 
 app.get '/logout', (req, res) ->
 	req.logout()
@@ -71,17 +86,24 @@ app.get '/auth/twitter/callback',
 # Now for the app.post functions
 
 app.post '/', (req, res) ->
-	Notes.findOne {}, {}, {sort: {_id : -1}}, (err, note) ->
-		if note 
-			noteId = note.id + 1
-		else
-			noteId = 1
+	return res.redirect '/' unless req.user?
+	if req.body.newType == 'note'
+		Notes.findOne {}, {}, {sort: {_id : -1}}, (err, note) ->
+			if note 
+				noteId = note.id + 1
+			else
+				noteId = 1
 
-		newNote(req.body.newNote, noteId, req.user.id)
-		res.redirect('/note/' + noteId)
-
-
-
+			newNote(req.body.newNote, noteId, req.user.id)
+			res.redirect "/note/#{noteId}"
+	else
+		Todos.findOne {}, {}, {sort: {_id: -1}}, (err, todo) ->
+			if todo
+				todoId = todo.id + 1
+			else
+				todoId = 1
+			newTodo(req.body.newNote, todoId, req.user.id)
+			res.redirect "/todo/#{todoId}"
 
 
 

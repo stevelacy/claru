@@ -29,6 +29,13 @@ input, textarea:focus{
 	border: 1px solid #dedede;
 }
 
+select{
+	padding:5px 10px;
+	background: #efefef;
+	border: none;
+	border: 1px solid #cdcdcd;
+	outline: none;
+}
 button{
 	background: #efefef;
 	border: none;
@@ -76,7 +83,7 @@ a{
 	top: 50px;
 	left: 10%;
 	width: 70%;
-	height: 150px;
+	height: 250px;
 	padding: 10% 5% 20px 5%;
 	background: #fafafa;
 	box-shadow: 0px 0px 100px #cdcdcd;
@@ -84,10 +91,8 @@ a{
 	 
 } #newNoteDiv input{
 	width: 50%;
-	margin: 0px 0px 20px 25%;
 } #newNoteDiv .submit{
 	width: 20%;
-	margin-left: 40%
 }
 #closeDiv{
 	position: absolute;
@@ -101,13 +106,16 @@ a{
 	color: #555;
 	cursor: pointer;
 }
+.todoList{
+	display: none;
+}
 
-#noteList{
+.noteList{
 	margin-top: 20px;
 	min-height: 100px;
 }
 
-#noteList li{
+.noteList li{
 	position: relative;
 	list-style: none;
 	height: 55px;
@@ -116,10 +124,10 @@ a{
 	padding: 20px 5% 20px 5%;
 	border-bottom: 1px solid #cdcdcd;
 }
-#noteList li:hover{
+.noteList li:hover{
 	background: #fefefe;
 }
-#noteList li #deleteItem{
+.noteList li #deleteItem{
 	position: absolute;
 	top: 0px;
 	right: 5%;
@@ -129,7 +137,7 @@ a{
 	padding: 20px 0 0 30px;
 	z-index: 5;
 }
-#noteList li #deleteItem:hover{
+.noteList li #deleteItem:hover{
 	color:#A52A2A;
 }
 .noteBox{
@@ -138,6 +146,23 @@ a{
 	width: 98%;
 	padding: 1%;
 	background: #fafafa;
+}
+
+.checkboxDiv{
+	position: relative;
+	width: 100%;
+	height: 40px;
+	padding: 20px 5% 20px 5%;
+	border-bottom: 1px solid #cdcdcd;
+}
+.checkboxDiv span{
+	position: absolute;
+	top: 15px;
+	left: 10%;
+}
+.checkboxDiv input{
+	display: block;
+	float: left;
 }
 
 #save{
@@ -240,7 +265,27 @@ a{
 
 }
 
-
+@media all and (min-width: 551px){
+	.noteList{
+		display: block;
+		float: left;
+		width: 45%;
+		margin-left: 5%;		
+	}
+	.noteList li{
+	}	
+	.todoList{
+		margin-top: 20px;
+		display: block;
+		float: left;
+		width: 40%;
+		margin-left: 5%;
+		height: 100px;	
+		background: #fafafa;
+		padding: 20px 5% 20px 5%;
+		border-bottom: 1px solid #cdcdcd;
+	}
+}
 
 @media all and (max-width: 550px){
 	

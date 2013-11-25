@@ -1,0 +1,56 @@
+- if (user)
+	!!!5
+	html
+		head
+			title Clárú
+			include ./head
+		body
+			.content
+				include ./menu
+				.noteBox
+					- if (todo[0]){
+					- each todoitem in todo
+						input#todoTitle(type='text' name='todoTitle' placeholder='Title' value='#{todoitem.title}')
+
+						.noteSettings#noteSettings.box-shadow-light.trans
+							.menu.bg-white-shade.box-shadow-thin
+								li#menuShare Share
+								li#menuDelete Delete
+
+						br
+						input#todoitem(type='text' placeholder='Todo item')
+
+						- each item in todoitem.todos
+							.checkboxDiv.box-shadow-light
+								input(type='checkbox')
+								span  #{todoitem.todos}
+
+						
+
+
+
+
+						#divShare.divShare.align-center
+							a
+								#closeDiv X
+							- if (todo[0].shareurl){
+									| Public URL:
+									br
+									input#url.share(type='text' value='http://#{shareurl + "/" + todoitem.shareurl}')
+									br
+									button#unShare(data-id='#{todoitem.id}') Make Private
+							-	}
+							-	else{
+								button.al-right#share.share(data-id='#{todoitem.id}') Share Note
+							-	}
+						#divDelete.divDelete.align-center	
+							a
+								#closeDiv X	
+							button#deletetodoitem(data-id='#{todoitem.id}')	Delete
+					- } 
+					- else{
+						h2 Note not found!
+					-	}	
+			include ./newnote
+
+

@@ -18,8 +18,27 @@ noteSchema = new mongoose.Schema
 	date: type: Number
 	shareurl: type: String
 
+
+todoSchema = new mongoose.Schema
+	title: type: String
+	todos: [
+		title: type: String
+		checked: type: Number
+		crossed: type: Number
+	]
+	id: type: Number
+	deleted: type: Number
+	user: type: Number
+	date: type: Number
+
+
+
+
+
 userSchema.set 'autoIndex', false
 noteSchema.set 'autoIndex', false
+todoSchema.set 'autoIndex', false
 
 exports.Users = mongoose.model 'Users', userSchema
 exports.Notes = mongoose.model 'Notes', noteSchema
+exports.Todos = mongoose.model 'Todos', todoSchema

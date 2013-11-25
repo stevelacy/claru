@@ -1,6 +1,13 @@
-#newNoteDiv
+#newNoteDiv.align-center
 	a
 		#closeDiv X
 	form(action='/' method='post')
 		input#newNoteTitle(type='text' name='newNote' placeholder='Title')
+		br
+		br
+		select.inline-block(name='newType')
+			option(value="note") Note
+			option(value="todo") Todo
+		br
+		br
 		input#submit(type='submit' value='Next')
