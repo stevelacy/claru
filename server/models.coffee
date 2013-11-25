@@ -21,16 +21,20 @@ noteSchema = new mongoose.Schema
 
 todoSchema = new mongoose.Schema
 	title: type: String
-	todos: [
-		title: type: String
-		checked: type: Number
-		crossed: type: Number
-	]
 	id: type: Number
 	deleted: type: Number
 	user: type: Number
 	date: type: Number
 
+todoitemSchema = new mongoose.Schema
+	todoid: type: Number
+	id: type: Number
+	user: type: Number
+	date: type: Number
+	title: type: String
+	checked: type: Number
+	deleted: type: Number	
+	#_todo: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todos'}]
 
 
 
@@ -38,7 +42,9 @@ todoSchema = new mongoose.Schema
 userSchema.set 'autoIndex', false
 noteSchema.set 'autoIndex', false
 todoSchema.set 'autoIndex', false
+todoitemSchema.set 'autoIndex', false
 
 exports.Users = mongoose.model 'Users', userSchema
 exports.Notes = mongoose.model 'Notes', noteSchema
 exports.Todos = mongoose.model 'Todos', todoSchema
+exports.Todoitems = mongoose.model 'Todoitems', todoitemSchema

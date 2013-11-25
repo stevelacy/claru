@@ -109,6 +109,11 @@ a{
 .todoList{
 	display: none;
 }
+.todoitemtitle{
+	position: absolute;
+	top: 0px;
+	left: 8%;
+}
 
 .noteList{
 	margin-top: 20px;

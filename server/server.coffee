@@ -28,6 +28,7 @@ mongoose.connection.once 'connected', ->
 Users = models.Users
 Notes = models.Notes
 Todos = models.Todos
+Todoitems = models.Todoitems
 
 
 
@@ -41,7 +42,12 @@ app.get '/', (req, res) ->
 	q = Notes.find {user:req.user.id, deleted:0}
 	q.sort({'date': -1})
 	q.exec (err, notes) ->
-		res.render 'index', {user:req.user, notes:notes}
+
+		t = Todos.find {user:req.user.id, deleted:0}
+		t.sort({'date': -1})
+		t.exec (err, todos) ->
+
+			res.render 'index', {user:req.user, notes:notes,todos:todos}
 
 app.get '/todos', (req, res) ->
 	return res.redirect '/' unless req.user?
@@ -60,8 +66,10 @@ app.get '/todo/:id', (req, res) ->
 	return res.redirect '/' unless req.user?
 	todoId = req.params.id
 	Todos.find {id:todoId, user:req.user.id, deleted:0}, (err, todo) ->
-		res.render 'todo', {user:req.user, todo:todo}
-
+		return res.render 'error' if err?
+		Todoitems.find {todoid:todoId, user:req.user.id, deleted:0}, (err, todos) ->
+			res.render 'todo', {user:req.user, todo:todo, todos:todos}
+			console.log todos
 
 app.get '/logout', (req, res) ->
 	req.logout()

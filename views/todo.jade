@@ -20,11 +20,13 @@
 						br
 						input#todoitem(type='text' placeholder='Todo item')
 
-						- each item in todoitem.todos
-							.checkboxDiv.box-shadow-light
-								input(type='checkbox')
-								span  #{todoitem.todos}
-
+						- if (todos){
+							#todoDiv
+								- each item in todos
+									.checkboxDiv.box-shadow-light
+										input(type='checkbox')
+										span#todoitemtitle  #{item.title}
+						-	}
 						
 
 

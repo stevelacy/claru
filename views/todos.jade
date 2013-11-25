@@ -1,2 +1,13 @@
-.todoList
-	| To do
+.noteList
+	h2 Todo List
+	- if(todos){
+		- each item in todos
+			a(href='/todo/#{item.id}')
+				li #{item.title}
+					#deleteItem(data-id='#{item.id}') X
+	- }
+	- else{
+			.box.box-width
+				.box-100.bg-white
+					h2 Click new to create a note :)
+	- }

@@ -23,6 +23,9 @@ var sendNote = function(note, noteTitle, id){
  	socket.emit("note", {message:note, title:noteTitle, id:id});
  
 }
+var saveTodoitem = function(title){
+	socket.emit("todoitem", {todoid:id, title:title});
+}
 socket.on("save", function (save){
 	var saveDiv = $("#save");
 	saveDiv.show().text(save).delay(1000).fadeOut();
@@ -42,6 +45,9 @@ socket.on("unshare", function (url){
 	$("#divShare").fadeToggle();
 })
 
+socket.on("todoitem", function(item){
+	$("#todoDiv").append('<div class="checkboxDiv box-shadow-light"><input type="checkbox"><span> '+ item.item.title +'</span></div>');
+})
 
 
 
@@ -78,6 +84,18 @@ $("#menuDelete").click(function(){
 })
 $("body #closeDiv").click(function(){
 	$(this).parent().parent().fadeToggle();
+})
+
+$("body #todoitemtitle").click(function(){
+	$(this).replaceWith("<input type='text' #saveTodoitem value='"+ $(this).text() +"' class='todoitemtitle' >")
+})
+
+
+$("body #todoitem").bind('keypress', function(e) {
+	var code = e.keyCode || e.which;
+	 if(code == 13) { 
+	 	saveTodoitem($(this).val());
+	 }
 })
 
 

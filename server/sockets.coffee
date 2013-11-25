@@ -11,6 +11,7 @@ deleteNote = require './functions/deleteNote'
 saveNote = require './functions/saveNote'
 shareNote = require './functions/shareNote'
 unShareNote = require './functions/unShareNote'
+saveTodoitem = require './functions/newTodoitem'	
 
 io = io.listen server
 
@@ -50,6 +51,10 @@ io.sockets.on 'connection', (socket) ->
 	socket.on 'unshare', (unshare) ->
 		unShareNote unshare, user.id, (data) ->
 			socket.emit 'unshare', {unshare:data}
+
+	socket.on 'todoitem', (todoitem) ->
+		saveTodoitem todoitem, user.id, (data) ->
+			socket.emit 'todoitem', {item:data}
 
 
 
