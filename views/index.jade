@@ -1,13 +1,12 @@
-!!!5
+doctype html
 html
 	head
 		title Clárú
 		include ./head
 	body
-		- if (user)
+		if user
 			include ./menu
 			include ./notes
-			include ./todos
 			include ./newnote
-		- else
+		else
 			include ./login

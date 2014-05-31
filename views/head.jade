@@ -5,9 +5,9 @@ script(src='/socket.io/socket.io.js')
 script(src='/js/claru.js')
 //script(src='/js/jq.mobile.custom.js')
 script(src='http://jquerypp.com/release/latest/jquerypp.js')
-- if (user) 
+if user
 	script(type='text/javascript') function getUser() {window.Android.sendUser("#{user.username}");}
-- else
+else
 	script(type='text/javascript') function getUser() {window.Android.sendUser("Please Log in");}	
 link(href='/css/main.css' rel='stylesheet')
 link(href='/css/claru.css' rel='stylesheet')

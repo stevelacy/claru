@@ -1,14 +1,11 @@
 .noteList
 	h2 Note List
-	-	if (notes[0]){
-	- each note in notes
-		a(href='/note/#{note.id}')
-			li #{note.title}
-				#deleteItem(data-id='#{note.id}') X
-	- }
-	- else{
+	if items
+		each note in items
+			a(href='/note/#{note.id}')
+				li #{note.title}
+					#deleteItem(data-id='#{note.id}') X
+		else
 			.box.box-width
 				.box-100.bg-white
 					h2 Click new to create a note :)
-	- }
-
