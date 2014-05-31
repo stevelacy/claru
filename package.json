@@ -19,6 +19,6 @@
     "body-parser": "^1.2.2"
   },
   "scripts": {
-  	"start": "DEBUG=socket.io* node server"
+  	"start": "DEBUG=socket.io* node start"
   }
 }
