@@ -1,56 +1,43 @@
-passport = require 'passport'
-passportTwitter = require 'passport-twitter'
+mongoose = require 'mongoose'
+passport = require "passport"
+TwitterStrategy = require("passport-twitter").Strategy
 
-config = require './config'
-keys = require './keys'
-models = require './models'
+db = require './db'
+config = require '../config'
 
-
-passportTwitter = passportTwitter.Strategy
-Users = models.Users
-Notes = models.Notes
+User = db.models.User
 
 
+handleFunction = (token, tokenSecret, profile, cb) ->
+  User.findOne {id: profile.id}, (err, user) ->
+    return cb err if err?
+    #image = profile._json.profile_image_url_https.replace('_normal', '')
+    image = profile._json.profile_image_url_https
+    profileUpdate =
+      id: Number profile.id
+      username: profile.username
+      image: image
+    if user?
+      user.set profileUpdate
+      user.save cb
+    else
+      User.create profileUpdate, (err, doc) ->
+        return cb err if err?
+        cb null, doc
 
-# Set Passport variables
-# 
-#Twitter login
-passport.use new passportTwitter
-  consumerKey: keys.consumerKey
-  consumerSecret: keys.consumerSecret
-  callbackURL: 'http://'+ config.host + '/auth/twitter/callback'
-, (token, tokenSecret, profile, done) ->
-# Check it against the database:
-		Users.findOne {id: profile.id}, (err, user) ->
-			return done if err?
-			userData = 
-				username: profile.username
-				name: profile.name
-				id: profile.id
-				source: 'twitter'
-				icon: profile.photos[0].value
-			if user?
-				# user is already in database.  --TODO Add the login time to db
-				user.set userData
-				user.check = 0
-				user.save done
-				console.log 'returning user'
-				return done null, user
-			else 
-				Users.create userData, (err, user) ->
-					return done if err?
-					done null, user
-					console.log user	
+strategy = new TwitterStrategy
+  consumerKey: config.keys.twitter.key
+  consumerSecret: config.keys.twitter.secret
+  callbackURL: config.twitter.callbackUrl
+, handleFunction
 
+passport.use strategy
 
-passport.serializeUser (user, done) ->
-	done null, user.id
+passport.serializeUser (user, cb) ->
+  cb null, user._id
 
-
-passport.deserializeUser (id, done) ->
-	Users.findOne {id: id}, done
-
-#end passport variables
+passport.deserializeUser (id, cb) ->
+  User.findOne {_id: id}, cb
 
 
 module.exports = passport

@@ -1,19 +1,15 @@
-models = require '../models'
-Notes = models.Notes
+db = require "../db"
+Item = db.models.Item
 
+module.exports = (title, user, cb) ->
+  console.log Item
+  newNote = new Item
+  noteData =
+    title: title
+    message: " "
+    user: user
+    date: new Date().getTime()
 
-newNote = (title, id, user) ->
-	newNoteData = new Notes
-		title: title
-		message: ''
-		id: id
-		deleted: 0
-		user: user
-		date: new Date().getTime()
-	newNoteData.save (err, note) ->
-		if err
-			return console.error(err)
-			console.log 'new note saved'
-
-
-module.exports = newNote
+  newNote.set noteData
+  newNote.save (err, data) ->
+    cb err, data

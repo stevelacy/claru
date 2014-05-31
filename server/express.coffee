@@ -1,30 +1,31 @@
-http = require 'http'
-express = require 'express'
-passport = require 'passport'
-config = require './config'
-sessionStore = require './sessionstore'
+path = require "path"
+stylus = require "stylus"
+express = require "express"
+session = require "express-session"
+bodyParser = require "body-parser"
+cookieParser = require "cookie-parser"
+
+config = require "../config"
+passport = require "./passport"
+sessionStore = require "./sessionstore"
+
 app = express()
+app.use stylus.middleware
+  src: path.resolve __dirname, "../static"
+  compile: (str, path) ->
+    stylus str 
+      .set "filename", path
+app.use express.static path.resolve __dirname, "../static"
+app.set "views", path.resolve __dirname, "../views"
+app.set "view engine", "jade"
+app.use cookieParser()
+app.use bodyParser()
+app.use session
+  store: sessionStore
+  name: config.session.name
+  secret: config.session.secret
 
+app.use passport.initialize()
+app.use passport.session()
 
-
-
-app.configure () ->
-	app.set 'view engine', 'jade'
-	app.set 'views', 'views'
-	app.use express.static 'static'
-	app.use express.json()
-	app.use express.urlencoded()
-	app.use express.methodOverride()
-	app.use express.cookieParser()
-	app.use express.session({
-		store: sessionStore
-		key: config.session.key
-		secret: config.session.secret
-		maxAge: new Date(Date.now() + 3600000)
-		expires: new Date(Date.now() + 3600000)
-		})
-	app.use passport.initialize()
-	app.use passport.session()
-
-
-	module.exports = app
+module.exports = app

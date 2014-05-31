@@ -1,21 +1,12 @@
-models = require '../models'
-Notes = models.Notes
+db = require "../db"
+Item = db.models.Item
 
+module.exports = (title, _id, message, user, cb) ->
+  noteData =
+    title: title
+    message: message
+    user: user
+    date: new Date().getTime()
 
-saveNote = (title, id, message, user) ->
-	saveNoteData = 
-		title: title
-		message: message
-		id: id
-		deleted: 0
-		user: user
-		date: new Date().getTime()
-
-	query = {id:id, user:user}
-	Notes.update query, saveNoteData, (err, number, response) ->
-		if err 
-			console.error err
-		console.log 'node Saved'
-
-
-module.exports = saveNote
+  Item.update {_id: _id, user: user}, noteData, (err, data) ->
+    cb err, data

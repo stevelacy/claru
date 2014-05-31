@@ -1,12 +1,9 @@
-express = require 'express'
-connectMongo = require 'connect-mongo'
+sessionstore = require "sessionstore"
+config = require "../config"
 
-config = require './config'
-
-mongoStore = connectMongo express
-
-mongoStore = new mongoStore({
-	url: config.mongo.url
-	})
-
-module.exports = mongoStore
+module.exports = sessionstore.createSessionStore
+  type: "mongoDb"
+  host: config.mongo.host # optional
+  port: config.mongo.port # optional
+  dbName: config.mongo.name # optional
+  collectionName: "sessions" # optional

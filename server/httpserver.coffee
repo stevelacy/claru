@@ -1,7 +1,7 @@
 http = require 'http'
 app = require './express'
-config = require './config'
+config = require '../config'
 
-server = http.createServer(app).listen config.port
-
+#server = http.createServer(app).listen config.port
+server = require("http").Server app
 module.exports = server
