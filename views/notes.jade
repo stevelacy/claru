@@ -4,7 +4,7 @@
 		each note in items
 			a(href='/note/#{note.id}')
 				li #{note.title}
-					#deleteItem(data-id='#{note.id}') X
+					.deleteItem(data-id='#{note.id}') X
 		else
 			.box.box-width
 				.box-100.bg-white

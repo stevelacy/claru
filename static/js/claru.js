@@ -40,13 +40,22 @@ $(document).ready(function() {
 		$("#newNoteDiv").fadeToggle();
 		$("#newNoteTitle").focus();
 	});
-	$("li #deleteItem").click(function(e){
+	$("li .deleteItem").click(function(e){
 		e.preventDefault();
 		var itemId = $(this).attr("data-id");
 		socket.emit("delete", {id:itemId});
 		$(this).parent("li").fadeOut();
 
 	});
+	$(".divDelete .deleteItem").click(function(e){
+		console.log(e);
+		var itemId = $(this).attr("data-id");
+		socket.emit("delete", {id:itemId});
+		window.location = "/";
+
+	});
+
+
 	$("#share").click(function(){
 		socket.emit("share", {share:$(this).attr("data-id")});
 	});

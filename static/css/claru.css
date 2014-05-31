@@ -132,7 +132,7 @@ a{
 .noteList li:hover{
 	background: #fefefe;
 }
-.noteList li #deleteItem{
+.noteList li .deleteItem{
 	position: absolute;
 	top: 0px;
 	right: 5%;
@@ -142,7 +142,7 @@ a{
 	padding: 20px 0 0 30px;
 	z-index: 5;
 }
-.noteList li #deleteItem:hover{
+.noteList li .deleteItem:hover{
 	color:#A52A2A;
 }
 .noteBox{
