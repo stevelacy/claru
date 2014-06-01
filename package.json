@@ -16,9 +16,10 @@
     "stylus": "^0.45.1",
     "sessionstore": "^0.4.5",
     "mongodb": "^1.4.5",
-    "body-parser": "^1.2.2"
+    "body-parser": "^1.2.2",
+    "gith": "^1.0.4"
   },
   "scripts": {
-  	"start": "DEBUG=socket.io* node start"
+    "start": "DEBUG=socket.io* node start"
   }
 }
