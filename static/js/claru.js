@@ -92,7 +92,7 @@ $(document).ready(function() {
 
 	// Check to see if it is the android app
 	if (window.navigator.userAgent == "claru-app") {
-		$("#menu, .share, #noteSettings").hide();
+		$("#menu, .share, #noteSettings, .notes-title").hide();
 	}
 
 
