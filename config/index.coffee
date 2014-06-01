@@ -2,7 +2,7 @@ keys = require "./keys"
 
 module.exports =
   name: "Claru"
-  port: 5000
+  port: 7001
   mongo:
     host: "127.0.0.1"
     port: "27017"
