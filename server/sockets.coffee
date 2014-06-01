@@ -18,7 +18,7 @@ io.set 'authorization', passportSocketIO.authorize
   key: config.session.name
   secret: config.session.secret
   store: sessionStore
-  fail: (data, accept) ->
+  fail: (data, message, critical, accept) ->
     console.log 'io session failed'
     accept null, false
   success: (data, accept) ->
