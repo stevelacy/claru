@@ -1,4 +1,4 @@
-config = require "./config"
+config = require "../config"
 require "./webapp"
 require "./sockets"
 server = require "./httpserver"
