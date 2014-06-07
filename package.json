@@ -10,7 +10,7 @@
     "mongoose": "^3.8.11",
     "passport": "*",
     "passport-twitter": "^1.0.2",
-    "passport.socketio": "https://github.com/techjeffharris/passport.socketio/tarball/master",
+    "passport.socketio": "*",
     "express-session": "^1.2.1",
     "cookie-parser": "^1.1.0",
     "stylus": "^0.45.1",
