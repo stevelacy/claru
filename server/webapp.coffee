@@ -49,4 +49,3 @@ app.post "/", (req, res) ->
     console.log err
     console.log data
     res.redirect "/note/#{data._id}"
-
