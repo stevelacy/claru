@@ -79,6 +79,12 @@ $(document).ready(function() {
 		$(this).parent().parent().fadeToggle();
 	});
 
+	$(".undo-text").click(function(){
+		document.execCommand("undo", false, null);
+	});
+	$(".redo-text").click(function(){
+		document.execCommand("redo", false, null);
+	});
 
 	$("#noteContent, #noteTitle").on("input", function(){
 		var note = $("#noteContent").val();

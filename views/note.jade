@@ -10,7 +10,8 @@ html
 			.noteBox
 				if note
 					input#noteTitle(type='text' name='noteTitle' placeholder='Title' value='#{note.title}')
-
+					button.box-shadow-light.undo-text Undo
+					button.box-shadow-light.redo-text Redo
 					.noteSettings#noteSettings.box-shadow-light.trans
 						.menu.bg-white-shade.box-shadow-thin
 							li#menuShare Share
