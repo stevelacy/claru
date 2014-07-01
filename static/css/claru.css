@@ -76,6 +76,22 @@ a{
 }
 
 
+.message,
+.error {
+  width: 80%;
+  position: fixed;
+  top: 0px;
+  left: 10%;
+  height: 40px;
+  display: none;
+  padding: 10px;
+  text-align: center;
+  background: rgba(200,200,200,0.6);
+}
+.error {
+  background: rgba(250,50,0,0.6);
+}
+
 
 
 #newNoteDiv{

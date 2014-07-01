@@ -18,21 +18,23 @@ $(document).ready(function() {
 		socket.emit("note", {message:note, title:noteTitle, id:id});
 	 
 	};
+
+	/* connect + disconnect*/
+	socket.on('connect', function(){
+    $('.message, .error').hide().text('');
+    $('.message').show().text('Connected! :)').fadeOut();
+  });
+  socket.on('disconnect', function(){
+    console.log("disconnected");
+    $('.error').show().text('Error: Disconnected from Socket');
+  });
+
+
 	socket.on("note", function (note){
 		if (id == note.id) {
 			$("#noteContent").val(note.message);
 			$("#noteTitle").val(note.title);
 		}
-	});
-	socket.on("share", function (url){
-		$("#share").replaceWith("<div class='al-right'>Public URL:<input type='text' id='url' value='"+ host + "/" + url.share +"'></div>");
-	});
-	socket.on("unshare", function (url){
-		$("#divShare").fadeToggle();
-	});
-
-	socket.on("todoitem", function(item){
-		$("#todoDiv").append('<div class="checkboxDiv box-shadow-light"><input type="checkbox"><span> '+ item.item.title +'</span></div>');
 	});
 
 
