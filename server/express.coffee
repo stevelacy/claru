@@ -25,7 +25,7 @@ app.use session
   name: config.session.name
   secret: config.session.secret
   cookie:
-    maxAge: 3600000000
+    maxAge: (86400000 * 3)
 
 app.use passport.initialize()
 app.use passport.session()
