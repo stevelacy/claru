@@ -19,3 +19,4 @@ node_modules
 #ignore the app key file:
 *keys.*
 server/keys.*
+*newrelic*

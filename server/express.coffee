@@ -13,7 +13,7 @@ app = express()
 app.use stylus.middleware
   src: path.resolve __dirname, "../static"
   compile: (str, path) ->
-    stylus str 
+    stylus str
       .set "filename", path
 app.use express.static path.resolve __dirname, "../static"
 app.set "views", path.resolve __dirname, "../views"
@@ -24,6 +24,8 @@ app.use session
   store: sessionStore
   name: config.session.name
   secret: config.session.secret
+  cookie:
+    maxAge: (86400000 * 3)
 
 app.use passport.initialize()
 app.use passport.session()
