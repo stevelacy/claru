@@ -35,8 +35,7 @@ module.exports = ->
           onClick: @newItem
           children: '+'
           style:
-            fontSize: 53
-            paddingTop: 3
+            fontSize: 50
             paddingLeft: 2
         div className: 'page',
           div className: 'items',

@@ -6,3 +6,4 @@ module.exports = fission.model
     content: 'string'
     _id: 'string'
   url: '/v1/items'
+  idAttribute: '_id'
