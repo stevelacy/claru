@@ -19,4 +19,4 @@ module.exports = fission.modelView
       button
         className: 'destroy'
         onClick: @destroy,
-          'X'
+          '⨯'
