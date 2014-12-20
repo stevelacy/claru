@@ -12,8 +12,8 @@ module.exports = (req, res, next) ->
   # canModify is the whitelist here
   delete req.body[k] for k,v of req.body when canModify.indexOf(k) is -1
 
-  console.log req.body
   item = new Item req.body
+  item.set user: req.user._id
   item.save (err, data) ->
     return res.status(500).send error: "item not created" if err?
-    return res.status(200).send status: data
+    return res.status(200).send data

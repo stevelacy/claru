@@ -6,6 +6,9 @@ canModify = ['name', 'content']
 
 module.exports = (req, res, next) ->
   return next()
+  ###
+  ## unused
+  ###
   return res.status(403).end() unless req.user?
   return next new Error 'Invalid id parameter' unless isObjectId req.params.id
   return res.status(403).end() unless req.params.id is String(req.user._id)

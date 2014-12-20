@@ -20,6 +20,10 @@ Model = new Schema
   content:
     type: String
 
+  user:
+    type: Schema.Types.ObjectId
+    required: true
+
 Model.set 'toJSON', {getters:true, virtuals:true}
 Model.set 'toObject', {getters:true, virtuals:true}
 
