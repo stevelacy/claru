@@ -1,3 +1,5 @@
+{spawn} = require 'child_process'
+
 gulp = require 'gulp'
 
 source     = require 'vinyl-source-stream'
@@ -136,6 +138,17 @@ gulp.task 'config', ->
 gulp.task 'watch', ->
   autowatch gulp, paths
 
+
+gulp.task 'phonegap', ->
+  gulp.src './public/**/*'
+  .pipe gulp.dest './phonegap/www'
+  .on 'end', ->
+    cmd = spawn 'phonegap', ['run', 'android'], cwd: "#{__dirname}/phonegap/"
+    cmd.stdout.on 'data', (data) ->
+      console.log String data
+    cmd.stderr.on 'data', (data) ->
+      console.log String data
+      process.exit 1
 
 gulp.task 'css', ['stylus']
 gulp.task 'js', ['coffee']

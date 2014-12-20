@@ -24,17 +24,16 @@ module.exports = ->
       data =
         email: @state.email
         password: @state.password
-      request.post '/login', data, (err, res) =>
+      request.post "#{fission.config.url}/login", data, (err, res) =>
         if res?.status == 200
           window.localStorage.setItem 'token', res.body.token
           window._user = res.body.user
-          window.location = '/'
+          fission.router.route '/'
         else
           @setState status: res.body.message
           setTimeout =>
             @setState status: ''
           , 2000
-
 
     render: ->
       div className: 'main login',

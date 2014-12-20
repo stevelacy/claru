@@ -1,5 +1,6 @@
 Fission = require 'fission'
 Sync = require 'ampersand-sync'
+io = require 'socket.io-client'
 
 window._token = window.localStorage.getItem 'token'
 tokenSync = (method, model, options) ->
@@ -15,7 +16,7 @@ fission = new Fission
 
 global.fission = fission
 fission.config = window._config
-fission.socket = io '',
+fission.socket = io fission.config.url,
   query: "token=#{window._token}"
 
 fission.socket.on 'connect', ->

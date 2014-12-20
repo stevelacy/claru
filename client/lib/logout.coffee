@@ -5,4 +5,4 @@ module.exports = ->
   window.localStorage.setItem 'token', ''
   request.post "#{fission.config.url}/logout?token=#{window._token}", (err, res) ->
     return console.log err if err?
-    window.location = '/'
+    fission.router.route '/'

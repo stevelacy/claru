@@ -10,13 +10,14 @@ ItemView = require './Item'
 {div, button} = fission.React.DOM
 
 module.exports = ->
-  return window.location = '/login' unless window._user?
+  return fission.router.route '/login' unless window._user?
+  console.log localStorage.getItem 'token'
   fission.collectionView
     model: Model
     itemView: ItemView
     init: ->
       o =
-        disconnect: true
+        disconnect: false
         openModal: false
       return o
     newItem: ->
@@ -40,7 +41,7 @@ module.exports = ->
           onClick: @newItem
           children: '+'
           style:
-            fontSize: 50
+            fontSize: 40
             paddingLeft: 2
         div className: 'page',
           div className: 'items',

@@ -5,5 +5,5 @@ module.exports = fission.model
     title: 'string'
     message: 'string'
     _id: 'string'
-  url: '/v1/items'
+  url: "#{fission.config.url}/v1/items"
   idAttribute: '_id'

@@ -39,6 +39,7 @@
     "serve-static": "^1.7.1",
     "sessionstore": "^1.0.5",
     "socket.io": "^1.2.1",
+    "socket.io-client": "^1.2.1",
     "socketio-jwt": "^2.3.5",
     "superagent": "^0.20.0",
     "toobusy": "^0.2.4",
