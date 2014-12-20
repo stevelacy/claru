@@ -7,7 +7,7 @@ module.exports = (req, res, next) ->
 
   # return all
   q = Item.find user: req.user._id, deleted: false
-  q.limit 25
+  q.limit 100
 
   q.exec (err, items) ->
     return next err if err?
