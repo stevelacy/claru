@@ -1,3 +1,2 @@
-require('newrelic');
 require('coffee-script/register');
-require('./server/');
+require('./server/index.coffee');
