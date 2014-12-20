@@ -22,7 +22,7 @@ module.exports = ->
       m.save null,
         wait: true
         success: (m, res) ->
-          fission.router.route "/item/#{res.status._id}"
+          fission.router.route "/item/#{res._id}"
         error: (m, res) ->
           console.log m, res
 

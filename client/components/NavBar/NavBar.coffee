@@ -5,7 +5,7 @@ fission = require '../../app'
 
 View = fission.view
   goHome: ->
-    fission.router.route '/'
+    window.history.back()
   render: ->
     div className: 'navbar',
       div className: 'left',
