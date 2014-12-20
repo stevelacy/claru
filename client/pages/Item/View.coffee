@@ -2,6 +2,7 @@ fission = require '../../app'
 
 Model = require '../../models/Item'
 NavBar = require '../../components/NavBar/NavBar'
+Toast = require '../../components/Toast/Toast'
 
 {div, input, textarea} = fission.React.DOM
 
@@ -11,23 +12,40 @@ module.exports = fission.modelView
     o =
       title: ''
       message: ''
+      disconnect: true
     return o
 
   handleTitle: (e) ->
     @setState title: e.target.value
     @model.set title: e.target.value
     data =
-      title: e.target.value
+      title: @model.title
+      message: @model.message
       id: @model._id
-    fission.socket.emit 'title', data
+    fission.socket.emit 'update', data
 
   handleContent: (e) ->
     @setState message: e.target.value
     @model.set message: e.target.value
     data =
-      message: e.target.value
+      title: @model.title
+      message: @model.message
       id: @model._id
-    fission.socket.emit 'message', data
+    fission.socket.emit 'update', data
+
+  mounted: ->
+    fission.socket.on 'disconnect', =>
+      if @isMounted()
+        @setState disconnect: true
+    fission.socket.on 'connect', =>
+      if @isMounted()
+        @setState disconnect: false
+    if fission.socket.connected
+      @setState disconnect: false
+
+    fission.socket.on 'update', ({data}) =>
+      @model.message = data.message
+      @model.title = data.title
 
   render: ->
     div className: 'main item',
@@ -42,3 +60,5 @@ module.exports = fission.modelView
           onChange: @handleContent
           value: @model.message
           placeholder: 'Message'
+        if @state.disconnect
+          Toast title: 'Error: disconnected from Socket'

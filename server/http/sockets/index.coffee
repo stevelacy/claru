@@ -1,3 +1,4 @@
+tungsten = require 'tungsten'
 socketioJwt = require 'socketio-jwt'
 db = require '../../db'
 server = require '../httpServer'
@@ -6,6 +7,7 @@ log = require '../../lib/log'
 io = require('socket.io')(server)
 
 Item = db.models.Item
+User = db.models.User
 
 io.use socketioJwt.authorize
   secret: config.token.secret
@@ -13,23 +15,30 @@ io.use socketioJwt.authorize
 
 
 io.on 'connection', (socket) ->
-  console.log 'connected'
+  log.info 'io: connecting...'
+  token = socket.handshake.query?.token
+  return unless token?
+  decoded = tungsten.decode token, config.token.secret
+  return unless decoded?.id?
 
-  socket.on 'title', (data) ->
-    return unless data.id?
-    Item.findById data.id, (err, item) ->
-      return log err if err?
-      item.set title: data.title
-      item.save (err, doc) ->
-        log err if err?
+  User.findById decoded.id, (err, user) ->
+    log err if err?
+    return unless user?
+    socket.handshake.user = user
+    socket.join user._id
 
+    log.info 'io: connected'
 
-  socket.on 'message', (data) ->
-    return unless data.id?
-    Item.findById data.id, (err, item) ->
-      return log err if err?
-      item.set message: data.message
-      item.save (err, doc) ->
-        log err if err?
+    socket.on 'update', (data) ->
+      console.log data
+      return unless data.id?
+      Item.findById data.id, (err, item) ->
+        return log.error err if err?
+        item.set
+          message: data.message
+          title: data.title
+        item.save (err, doc) ->
+          log.error err if err?
+          socket.broadcast.to(user._id).emit 'update', data: doc
 
 module.exports = io
