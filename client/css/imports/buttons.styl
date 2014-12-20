@@ -1,0 +1,44 @@
+@import '../mixins/fonts'
+button, .button
+  font-rodus()
+  transition: all .5s
+  border: none
+  background: whiteDarkShade
+  padding: 10px
+  outline: none
+  font-size: 16px
+  cursor: pointer
+  margin: 5px
+  box-shadow: 0 0 1px #cdcdcd
+  // Sizes
+  &.large
+    padding: 20px
+    font-size: 22px
+  &.wide
+    padding-left: 40px
+    padding-right: 40px
+
+  // Actions
+  &:hover
+    text-decoration: none
+
+  // Colors
+  &.green
+    background: green
+    color: white
+    &:hover
+      background: darken(green, 10)
+  &.red
+    background: red
+    color: white
+    &:hover
+      background: darken(red, 10)
+  &.blue
+    background: blue
+    color: white
+    &:hover
+      background: darken(blue, 10)
+  &.light
+    background: rgba(255, 255, 255, .4)
+    &:hover
+      background: rgba(255, 255, 255, .8)
