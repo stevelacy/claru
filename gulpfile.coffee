@@ -15,6 +15,7 @@ concat = require 'gulp-concat'
 plumber = require 'gulp-plumber'
 reload = require 'gulp-livereload'
 htmlmin = require 'gulp-minify-html'
+replace = require 'gulp-replace'
 
 gutil = require 'gulp-util'
 gif = require 'gulp-if'
@@ -25,7 +26,9 @@ nodemon = require 'gulp-nodemon'
 nib = require 'nib'
 autoprefixer = require 'autoprefixer-stylus'
 autowatch = require 'gulp-autowatch'
+ip = require 'ip'
 
+config = require './server/config'
 
 # paths
 paths =
@@ -36,6 +39,8 @@ paths =
   coffeeSrc: './client/start.coffee'
   stylus: './client/**/*.styl'
   jade: './client/**/*.jade'
+  config: './client/config.js'
+  public: './public'
 
 gulp.task 'server', (cb) ->
   # total hack to make nodemon + livereload
@@ -75,7 +80,7 @@ gulp.task 'coffee', ->
   .pipe buffer()
   .pipe plumber()
   .pipe gif gutil.env.production, uglify()
-  .pipe gulp.dest './public'
+  .pipe gulp.dest paths.public
   .pipe reload()
 
 # styles
@@ -92,7 +97,7 @@ gulp.task 'stylus', ->
     .pipe concat 'app.css'
     .pipe sourcemaps.write()
     .pipe gif gutil.env.production, csso()
-    .pipe gulp.dest './public'
+    .pipe gulp.dest paths.public
     .pipe reload()
 
 gulp.task 'jade', ->
@@ -100,7 +105,7 @@ gulp.task 'jade', ->
     .pipe jade()
     .pipe cache 'html'
     .pipe gif gutil.env.production, htmlmin()
-    .pipe gulp.dest './public'
+    .pipe gulp.dest paths.public
     .pipe reload()
 
 gulp.task 'vendor', ->
@@ -121,6 +126,13 @@ gulp.task 'fonts', ->
     .pipe gulp.dest './public/fonts'
     .pipe reload()
 
+gulp.task 'config', ->
+  gulp.src paths.config
+    .pipe gif gutil.env.production, (replace /SERVER/g, config.url), replace /SERVER/g, "http://#{ip.address()}:#{config.port}"
+    .pipe replace /TITLE/g, config.title
+    .pipe replace /NAME/g, config.name
+    .pipe gulp.dest paths.public
+
 gulp.task 'watch', ->
   autowatch gulp, paths
 
@@ -128,4 +140,4 @@ gulp.task 'watch', ->
 gulp.task 'css', ['stylus']
 gulp.task 'js', ['coffee']
 gulp.task 'static', ['jade', 'vendor', 'img', 'fonts']
-gulp.task 'default', ['js', 'css', 'static', 'server', 'watch']
+gulp.task 'default', ['js', 'css', 'static', 'server', 'config', 'watch']
