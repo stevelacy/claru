@@ -1,20 +1,39 @@
-mongoose = require "mongoose"
-Schema = mongoose.Schema
+{Schema} = require 'mongoose'
 
-Item = new Schema
+noWrite = ->
+  perms =
+    read: true
+    write: false
+  return perms
+
+hidden = ->
+  perms =
+    read: false
+    write: false
+  return perms
+
+Model = new Schema
+
   title:
     type: String
-  message:
+
+  content:
     type: String
-  user:
-    type: Schema.Types.ObjectId
-  deleted:
-    type: Boolean
-    default: false
-  date:
-    type: Number
 
+Model.set 'toJSON', {getters:true, virtuals:true}
+Model.set 'toObject', {getters:true, virtuals:true}
 
-Item.set "autoindex", false
+Model.methods.authorize = (req) ->
+  perms =
+    read: true
+    write: (req.user.username is @username)
+    delete: false
+  return perms
 
-module.exports = Item
+Model.statics.authorize = ->
+  perms =
+    read: true
+    write: false
+  return perms
+
+module.exports = Model

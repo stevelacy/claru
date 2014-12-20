@@ -1,0 +1,10 @@
+{
+  "name": "super-plugin",
+  "portal": {
+    "main": "super.js",
+    "html": "super.html",
+    "widget": {
+      "html": "widget.html"
+    }
+  }
+}

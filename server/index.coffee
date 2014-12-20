@@ -1,6 +1,10 @@
-config = require "../config"
-require "./webapp"
-require "./sockets"
-server = require "./httpserver"
+config = require './config'
+log = require './lib/log'
 
-server.listen config.port
+log.info 'Starting with config', config
+server = require './http'
+
+server.listen config.port, ->
+  log.info "Server running on #{config.port}"
+
+module.exports = server
