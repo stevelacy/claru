@@ -2,7 +2,7 @@ isObjectId = require '../../lib/isObjectId'
 db = require '../../db'
 Item = db.model 'Item'
 
-canModify = ['name', 'content']
+canModify = ['name', 'message']
 
 module.exports = (req, res, next) ->
   return next()

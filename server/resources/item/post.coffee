@@ -2,7 +2,7 @@ isObjectId = require '../../lib/isObjectId'
 db = require '../../db'
 Item = db.model 'Item'
 
-canModify = ['title', 'content']
+canModify = ['title', 'message']
 
 module.exports = (req, res, next) ->
   return res.status(403).end() unless req.user?

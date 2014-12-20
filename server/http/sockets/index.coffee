@@ -2,6 +2,7 @@ socketioJwt = require 'socketio-jwt'
 db = require '../../db'
 server = require '../httpServer'
 config = require '../../config'
+log = require '../../lib/log'
 io = require('socket.io')(server)
 
 Item = db.models.Item
@@ -14,23 +15,21 @@ io.use socketioJwt.authorize
 io.on 'connection', (socket) ->
   console.log 'connected'
 
-  socket.on 'test', (data) ->
-    console.log 'test worked', data
-    socket.emit 'test', test: 'that'
-
   socket.on 'title', (data) ->
     return unless data.id?
     Item.findById data.id, (err, item) ->
+      return log err if err?
       item.set title: data.title
       item.save (err, doc) ->
-        console.log err, doc
+        log err if err?
 
 
-  socket.on 'content', (data) ->
+  socket.on 'message', (data) ->
     return unless data.id?
     Item.findById data.id, (err, item) ->
-      item.set content: data.content
+      return log err if err?
+      item.set message: data.message
       item.save (err, doc) ->
-        console.log err, doc
+        log err if err?
 
 module.exports = io

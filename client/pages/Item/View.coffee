@@ -10,7 +10,7 @@ module.exports = fission.modelView
   init: ->
     o =
       title: ''
-      content: ''
+      message: ''
     return o
 
   handleTitle: (e) ->
@@ -22,12 +22,12 @@ module.exports = fission.modelView
     fission.socket.emit 'title', data
 
   handleContent: (e) ->
-    @setState content: e.target.value
-    @model.set content: e.target.value
+    @setState message: e.target.value
+    @model.set message: e.target.value
     data =
-      content: e.target.value
+      message: e.target.value
       id: @model._id
-    fission.socket.emit 'content', data
+    fission.socket.emit 'message', data
 
   render: ->
     div className: 'main item',
@@ -40,5 +40,5 @@ module.exports = fission.modelView
           placeholder: 'Title'
         textarea
           onChange: @handleContent
-          value: @model.content
+          value: @model.message
           placeholder: 'Message'

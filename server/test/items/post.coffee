@@ -19,7 +19,7 @@ describe 'Item POST', ->
   it 'should respond with 403 when not logged in', (done) ->
     request(app)
       .post "#{config.apiPrefix}/items"
-      .send title: 'no auth', content: 'test'
+      .send title: 'no auth', message: 'test'
       .set 'Accept', 'application/json'
       .expect 403, done
 
@@ -27,7 +27,7 @@ describe 'Item POST', ->
 
     request(app)
       .post "#{config.apiPrefix}/items"
-      .send title: 'test', content: 'my note'
+      .send title: 'test', message: 'my note'
       .set 'Accept', 'application/json'
       .query token: mock.token
       .expect 'Content-Type', /json/
@@ -37,5 +37,5 @@ describe 'Item POST', ->
         should.exist res.body
         res.body.should.be.type 'object'
         res.body.title.should.equal 'test'
-        res.body.content.should.equal 'my note'
+        res.body.message.should.equal 'my note'
         done()

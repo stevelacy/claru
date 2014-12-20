@@ -6,7 +6,7 @@ module.exports = (req, res, next) ->
   return res.status(403).end() unless req.user?
 
   # return all
-  q = Item.find user: req.user._id
+  q = Item.find user: req.user._id, deleted: false
   q.limit 25
 
   q.exec (err, items) ->

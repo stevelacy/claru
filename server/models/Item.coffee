@@ -17,12 +17,16 @@ Model = new Schema
   title:
     type: String
 
-  content:
+  message:
     type: String
 
   user:
     type: Schema.Types.ObjectId
     required: true
+
+  deleted:
+    type: Boolean
+    default: false
 
 Model.set 'toJSON', {getters:true, virtuals:true}
 Model.set 'toObject', {getters:true, virtuals:true}

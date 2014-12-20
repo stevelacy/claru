@@ -2,7 +2,7 @@ isObjectId = require '../../lib/isObjectId'
 db = require '../../db'
 Item = db.model 'Item'
 
-canModify = ['title', 'content']  ## Whitelist, what the user can modify
+canModify = ['title', 'message']  ## Whitelist, what the user can modify
 
 module.exports = (req, res, next) ->
   ###

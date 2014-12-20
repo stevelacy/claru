@@ -76,6 +76,6 @@
   },
   "scripts": {
     "test": "NODE_ENV=testing mocha --recursive --reporter spec --compilers coffee:coffee-script/register ./server/test",
-    "start": "DEBUG=* node start"
+    "start": "NODE_ENV=production DEBUG=* node start"
   }
 }
