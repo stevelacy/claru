@@ -8,4 +8,4 @@ module.exports = (req, res, next) ->
   Item.findOneAndUpdate {_id: req.params.id, user: req.user._id}, {deleted: true}, (err, item) ->
     return res.status(401).end() if err?
     return res.status(404).end() unless item?
-    res.status(200).end()
+    res.status(204).end()
