@@ -28,6 +28,7 @@ module.exports = ->
         if res?.status == 200
           window.localStorage.setItem 'token', res.body.token
           window._user = res.body.user
+          window._token = res.body.token
           fission.router.route '/'
         else
           @setState status: res.body.message

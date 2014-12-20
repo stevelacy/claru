@@ -4,7 +4,7 @@ Model = require '../../models/Item'
 NavBar = require '../../components/NavBar/NavBar'
 Toast = require '../../components/Toast/Toast'
 
-{div, input, textarea} = fission.React.DOM
+{div, input, textarea, button} = fission.React.DOM
 
 module.exports = fission.modelView
   model: Model
@@ -14,6 +14,19 @@ module.exports = fission.modelView
       message: ''
       disconnect: true
     return o
+  mounted: ->
+    fission.socket.on 'disconnect', =>
+      if @isMounted()
+        @setState disconnect: true
+    fission.socket.on 'connect', =>
+      if @isMounted()
+        @setState disconnect: false
+    if fission.socket.connected
+      @setState disconnect: false
+
+    fission.socket.on 'update', ({data}) =>
+      @model.message = data.message
+      @model.title = data.title
 
   handleTitle: (e) ->
     @setState title: e.target.value
@@ -33,19 +46,8 @@ module.exports = fission.modelView
       id: @model._id
     fission.socket.emit 'update', data
 
-  mounted: ->
-    fission.socket.on 'disconnect', =>
-      if @isMounted()
-        @setState disconnect: true
-    fission.socket.on 'connect', =>
-      if @isMounted()
-        @setState disconnect: false
-    if fission.socket.connected
-      @setState disconnect: false
-
-    fission.socket.on 'update', ({data}) =>
-      @model.message = data.message
-      @model.title = data.title
+  reconnect: ->
+    fission.router.route "/item/#{@model._id}"
 
   render: ->
     div className: 'main item',
@@ -61,4 +63,5 @@ module.exports = fission.modelView
           value: @model.message
           placeholder: 'Message'
         if @state.disconnect
-          Toast title: 'Error: disconnected from Socket'
+          Toast title: 'Error: disconnected',
+            button onClick: @reconnect, 'Reconnect'

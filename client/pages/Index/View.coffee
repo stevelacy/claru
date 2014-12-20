@@ -24,6 +24,8 @@ module.exports = ->
         wait: true
         success: (m, res) ->
           fission.router.route "/item/#{res._id}"
+    reconnect: ->
+      fission.router.route '/'
 
     mounted: ->
       fission.socket.on 'disconnect', =>
@@ -49,4 +51,5 @@ module.exports = ->
           div className: 'items',
             @items
         if @state.disconnect
-          Toast title: 'Error: disconnected from Socket'
+          Toast title: 'Error: disconnected',
+            button onClick: @reconnect, 'Reconnect'

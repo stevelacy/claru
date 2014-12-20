@@ -13,3 +13,7 @@ module.exports = fission.view
       #style: opacity: @state.opacity
       className: 'toast',
       div className: 'title', @props.title
+      div
+        className: 'right'
+        onClick: @props.onClick,
+          @props.children

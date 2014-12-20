@@ -28,8 +28,6 @@ nodemon = require 'gulp-nodemon'
 nib = require 'nib'
 autoprefixer = require 'autoprefixer-stylus'
 autowatch = require 'gulp-autowatch'
-ip = require 'ip'
-
 config = require './server/config'
 
 # paths
@@ -130,7 +128,7 @@ gulp.task 'fonts', ->
 
 gulp.task 'config', ->
   gulp.src paths.config
-    .pipe gif gutil.env.production, (replace /SERVER/g, config.url), replace /SERVER/g, "http://#{ip.address()}:#{config.port}"
+    .pipe gif gutil.env.production, (replace /SERVER/g, config.url), replace /SERVER/g, config.url
     .pipe replace /TITLE/g, config.title
     .pipe replace /NAME/g, config.name
     .pipe gulp.dest paths.public
