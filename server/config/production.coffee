@@ -5,5 +5,6 @@ module.exports =
   name: 'Claru'
   title: 'Claru'
   url: 'http://claru.slacy.me'
+  port: 5001
   token:
     secret: 'IhoiUHyu6gt5HJHhjhhGfddsESEWsfgHJjhhjFDdsseseRDSTDfgghhjHJljklkjuiuyyUYUtytrRERerererERerererRTGHghj'
