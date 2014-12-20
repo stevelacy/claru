@@ -4,17 +4,18 @@ tungsten = require 'tungsten'
 config = require '../config'
 
 date = new Date()
-createId = String mongoose.Types.ObjectId()
+itemId = String mongoose.Types.ObjectId()
+userId = String mongoose.Types.ObjectId()
 
 token = tungsten.encode
-  id: createId
+  id: userId
   exp: date + 345600000
 , config.token.secret
 
 
 module.exports =
   user:
-    _id: createId
+    _id: userId
     name: 'John Smith'
     token: token
     email: 'me@my.me'
@@ -22,8 +23,9 @@ module.exports =
     username: 'jsmith'
 
   item:
-    _id: createId
+    _id: itemId
     name: 'test-item'
     main: 'test.coffee'
+    user: userId
     widget:
       html: 'test.html'

@@ -10,37 +10,32 @@ request = require 'supertest'
 should = require 'should'
 
 mock = setup.user
-mockPlug = setup.item
 
-describe 'Item PATCH', ->
+describe 'Item POST', ->
   beforeEach db.wipe
   beforeEach (cb) ->
-    User.create mock, (err, user) ->
-      cb err, user if err?
-      Item.create mockPlug, cb
+    User.create mock, cb
 
   it 'should respond with 403 when not logged in', (done) ->
     request(app)
-      .patch "#{config.apiPrefix}/items/123"
+      .post "#{config.apiPrefix}/items"
+      .send title: 'no auth', content: 'test'
       .set 'Accept', 'application/json'
       .expect 403, done
 
-  return
   it 'should respond with 200 and information when logged in', (done) ->
-    mod =
-      title: 'newplug'
 
     request(app)
-      .patch "#{config.apiPrefix}/items/#{mockPlug._id}"
+      .post "#{config.apiPrefix}/items"
+      .send title: 'test', content: 'my note'
       .set 'Accept', 'application/json'
       .query token: mock.token
-      .send mod
       .expect 'Content-Type', /json/
       .expect 200
       .end (err, res) ->
         return done err if err?
         should.exist res.body
         res.body.should.be.type 'object'
-        res.body._id.should.equal mockPlug._id
-        res.body.title.should.equal 'newplug'
+        res.body.title.should.equal 'test'
+        res.body.content.should.equal 'my note'
         done()
