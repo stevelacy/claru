@@ -35,6 +35,7 @@ io.on 'connection', (socket) ->
       Item.findById data.id, (err, item) ->
         return log.error err if err?
         item.set
+          date: new Date().getTime()
           message: data.message
           title: data.title
         item.save (err, doc) ->

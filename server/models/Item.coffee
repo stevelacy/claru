@@ -28,6 +28,10 @@ Model = new Schema
     type: Boolean
     default: false
 
+  date:
+    type: Number
+
+
 Model.set 'toJSON', {getters:true, virtuals:true}
 Model.set 'toObject', {getters:true, virtuals:true}
 
