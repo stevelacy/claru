@@ -41,7 +41,8 @@
     "socket.io": "^1.2.1",
     "socketio-jwt": "^2.3.5",
     "superagent": "^0.20.0",
-    "toobusy": "^0.2.4"
+    "toobusy": "^0.2.4",
+    "tungsten": "https://github.com/stevelacy/tungsten/tarball/master"
   },
   "devDependencies": {
     "autoprefixer-stylus": "^0.2.0",

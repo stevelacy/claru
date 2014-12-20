@@ -7,7 +7,7 @@ module.exports = fission.modelView
   model: Model
   link: ->
     fission.router.route "/item/#{@model._id}"
-  delete: ->
+  destroy: ->
     @model.destroy()
 
   render: ->
@@ -17,6 +17,6 @@ module.exports = fission.modelView
         onClick: @link,
           @model.title
       button
-        className: 'delete'
-        onClick: @delete,
+        className: 'destroy'
+        onClick: @destroy,
           'X'
