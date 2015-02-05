@@ -1,5 +1,5 @@
 window._config ={
   name: 'Claru',
   title: 'Claru',
-  url: 'http://192.168.0.2:5000'
+  url: 'http://192.168.1.173:5000'
 };
