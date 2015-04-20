@@ -1,9 +1,9 @@
-fission = require '../../app'
+{component, DOM} = require 'fission'
 
-{div, button} = fission.React.DOM
+{div, button} = DOM
 
 
-View = fission.view
+module.exports = component
   close: ->
     setTimeout @props.onClose, 10
   render: ->
@@ -15,5 +15,3 @@ View = fission.view
 
       if @props.content?
         @props.content()
-
-module.exports = View

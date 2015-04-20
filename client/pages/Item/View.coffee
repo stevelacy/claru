@@ -1,12 +1,12 @@
-fission = require '../../app'
+{modelView, DOM} = require 'fission'
 
 Model = require '../../models/Item'
 NavBar = require '../../components/NavBar/NavBar'
 Toast = require '../../components/Toast/Toast'
 
-{div, input, textarea, button} = fission.React.DOM
+{div, input, textarea, button} = DOM
 
-module.exports = fission.modelView
+module.exports = modelView
   model: Model
   init: ->
     o =

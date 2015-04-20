@@ -1,4 +1,6 @@
-window._config ={
+/* global window */
+
+window._config = {
   name: 'NAME',
   title: 'TITLE',
   url: 'SERVER'

@@ -1,7 +1,7 @@
-fission = require '../../app'
-{div} = fission.React.DOM
+{component, DOM} = require 'fission'
+{div} = DOM
 
-module.exports = fission.view
+module.exports = component
   init: ->
     opacity: 1
   mounted: ->

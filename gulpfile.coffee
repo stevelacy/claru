@@ -36,7 +36,7 @@ paths =
   img: './client/img/**/*'
   fonts: './client/fonts/**/*'
   coffee: './client/**/*.coffee'
-  coffeeSrc: './client/start.coffee'
+  coffeeSrc: './client/index.coffee'
   stylus: './client/**/*.styl'
   jade: './client/**/*.jade'
   config: './client/config.js'
@@ -79,6 +79,9 @@ gulp.task 'coffee', ->
   .pipe source 'start.js'
   .pipe buffer()
   .pipe plumber()
+  .pipe sourcemaps.init
+    loadMaps: true
+  .pipe sourcemaps.write '.'
   .pipe gif gutil.env.production, uglify()
   .pipe gulp.dest paths.public
   .pipe reload()

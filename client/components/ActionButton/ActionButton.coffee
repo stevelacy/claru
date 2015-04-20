@@ -1,7 +1,7 @@
-fission = require '../../app'
+{component, DOM} = require 'fission'
 
-{div, button} = fission.React.DOM
-module.exports = fission.view
+{div, button} = DOM
+module.exports = component
   render: ->
     style = {}
     if @props.style?

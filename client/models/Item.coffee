@@ -1,9 +1,11 @@
-fission = require '../app'
+{model} = require 'fission'
+sync = require './sync'
 
-module.exports = fission.model
+module.exports = model
   props:
     title: 'string'
     message: 'string'
     _id: 'string'
-  url: "#{fission.config.url}/v1/items"
+  urlRoot: "#{window._config.url}/v1/items"
   idAttribute: '_id'
+  sync: sync

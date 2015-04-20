@@ -1,9 +1,9 @@
-fission = require '../../app'
+{modelView, DOM} = require 'fission'
 
 Model = require '../../models/Item'
-{div, button} = fission.React.DOM
+{div, button} = DOM
 
-module.exports = fission.modelView
+module.exports = modelView
   model: Model
   link: ->
     fission.router.route "/item/#{@model._id}"

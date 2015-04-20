@@ -1,10 +1,10 @@
-fission = require '../../app'
+{component, DOM} = require 'fission'
 logout = require '../../lib/logout'
 
-{header, h1, li, a, div, span, p, button} = fission.React.DOM
+{header, h1, li, a, div, span, p, button} = DOM
 
 
-View = fission.view
+module.exports = component
   init: ->
     o =
       openMenu: false
@@ -25,7 +25,7 @@ View = fission.view
             onClick: @goHome
             , '❬'
       div className: 'center',
-        div className: 'title', fission.config.title
+        div className: 'title', window._config.title
 
       div className: 'right',
         button
@@ -39,4 +39,4 @@ View = fission.view
             onClick: @toggleMenu,
             div className: 'menu',
               li onClick: @logout, 'logout'
-module.exports = View
+
