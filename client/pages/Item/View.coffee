@@ -7,7 +7,12 @@ Toast = require '../../components/Toast/Toast'
 {div, input, textarea, button} = DOM
 
 module.exports = modelView
+  displayName: 'NewItem'
   model: Model
+  routeIdAttribute: 'itemId'
+  statics:
+    willTransitionTo: (transition) ->
+      return transition.redirect 'login' unless window.token?
   init: ->
     o =
       title: ''
@@ -15,16 +20,16 @@ module.exports = modelView
       disconnect: true
     return o
   mounted: ->
-    fission.socket.on 'disconnect', =>
+    window.socket.on 'disconnect', =>
       if @isMounted()
         @setState disconnect: true
-    fission.socket.on 'connect', =>
+    window.socket.on 'connect', =>
       if @isMounted()
         @setState disconnect: false
-    if fission.socket.connected
+    if window.socket.connected
       @setState disconnect: false
 
-    fission.socket.on 'update', ({data}) =>
+    window.socket.on 'update', ({data}) =>
       @model.message = data.message
       @model.title = data.title
 
@@ -35,7 +40,7 @@ module.exports = modelView
       title: @model.title
       message: @model.message
       id: @model._id
-    fission.socket.emit 'update', data
+    window.socket.emit 'update', data
 
   handleContent: (e) ->
     @setState message: e.target.value
@@ -44,12 +49,13 @@ module.exports = modelView
       title: @model.title
       message: @model.message
       id: @model._id
-    fission.socket.emit 'update', data
+    window.socket.emit 'update', data
 
   reconnect: ->
-    fission.router.route "/item/#{@model._id}"
+    window.location.reload()
 
   render: ->
+    return null unless @model?
     div className: 'main item',
       NavBar()
       div className: 'page',

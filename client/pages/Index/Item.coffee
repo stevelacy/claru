@@ -4,9 +4,10 @@ Model = require '../../models/Item'
 {div, button} = DOM
 
 module.exports = modelView
+  displayName: 'ItemView'
   model: Model
   link: ->
-    fission.router.route "/item/#{@model._id}"
+    @transitionTo "/item/#{@model._id}"
   destroy: ->
     @model.destroy()
 

@@ -9,6 +9,10 @@ ItemView = require './Item'
 {div, button} = DOM
 
 module.exports = collectionView
+  displayName: 'Index'
+  statics:
+    willTransitionTo: (transition) ->
+      return transition.redirect 'login' unless window.token?
   collection:
     model: Model
   itemView: ItemView

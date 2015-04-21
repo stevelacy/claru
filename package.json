@@ -33,12 +33,11 @@
     "socket.io-client": "^1.2.1",
     "socketio-jwt": "^2.3.5",
     "superagent": "^0.20.0",
-    "toobusy": "^0.2.4",
     "tungsten": "^0.1.0"
   },
   "devDependencies": {
-    "autoprefixer-stylus": "^0.2.0",
     "ampersand-sync": "^3.0.3",
+    "autoprefixer-stylus": "^0.2.0",
     "browserify": "^5.10.1",
     "coffee-script": "^1.7.1",
     "coffeeify": "^0.7.0",
@@ -66,7 +65,8 @@
     "should": "^4.1.0",
     "supertest": "^0.14.0",
     "vinyl-buffer": "0.0.0",
-    "vinyl-source-stream": "^0.1.1"
+    "vinyl-source-stream": "^0.1.1",
+    "watchify": "^3.1.2"
   },
   "scripts": {
     "test": "NODE_ENV=testing mocha --recursive --reporter spec --compilers coffee:coffee-script/register ./server/test",

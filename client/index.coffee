@@ -7,5 +7,4 @@ window.socket = io '',
 
 request.post "#{window._config.url}/auth?token=#{window.token}", (err, res) ->
   window._user = res?.body
-
   router.start document.body

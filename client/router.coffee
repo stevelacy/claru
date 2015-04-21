@@ -6,12 +6,13 @@ Item = require './pages/Item/View'
 
 
 module.exports = router
-  index:
+  login:
+    path: 'login'
+    view: Login
+  item:
+    path: 'item/:itemId'
+    view: Item
+  app:
     path: '/'
     view: Index
-  item:
-    path: '/item/:id'
-    view: Item
-  login:
-    path: '/login'
-    view: Login
+
