@@ -1,8 +1,7 @@
 {modelView, DOM} = require 'fission'
 
 Model = require '../../models/Item'
-NavBar = require '../../components/NavBar/NavBar'
-Toast = require '../../components/Toast/Toast'
+Toast = require '../../components/Toast'
 
 {div, input, textarea, button} = DOM
 
@@ -57,7 +56,6 @@ module.exports = modelView
   render: ->
     return null unless @model?
     div className: 'main item',
-      NavBar()
       div className: 'page',
         input
           type: 'text'

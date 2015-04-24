@@ -20,4 +20,4 @@ module.exports = modelView
       button
         className: 'destroy'
         onClick: @destroy,
-          'x'
+          '×'

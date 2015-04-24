@@ -1,7 +1,7 @@
 {collectionView, DOM} = require 'fission'
 
 Model = require '../../models/Item'
-NavBar = require '../../components/NavBar/NavBar'
+NavBar = require '../../components/NavBar'
 ActionButton = require '../../components/ActionButton/ActionButton'
 Toast = require '../../components/Toast/Toast'
 ItemView = require './Item'
@@ -18,7 +18,6 @@ module.exports = collectionView
   itemView: ItemView
   init: ->
     disconnect: false
-    openModal: false
   newItem: ->
     m = new Model()
     m.save null,
@@ -40,7 +39,7 @@ module.exports = collectionView
 
   render: ->
     div className: 'main index',
-      NavBar home: true
+      # NavBar home: true
 
       ActionButton
         onClick: @newItem
