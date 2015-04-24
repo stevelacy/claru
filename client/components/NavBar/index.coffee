@@ -3,7 +3,6 @@ logout = require '../../lib/logout'
 
 {header, h1, li, a, div, span, p, button} = DOM
 
-
 module.exports = component
   init: ->
     o =

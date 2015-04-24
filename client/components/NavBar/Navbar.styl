@@ -1,12 +1,11 @@
 @require 'nib'
 @require '../../css/mixins/aligns'
 @require '../../css/mixins/fonts'
-@import '../../css/imports/colors'
+@require '../../css/imports/colors'
 
 align-vertical()
+  relative: top 50%
   display: block
-  position: relative
-  top: 50%
   -webkit-transform: translateY(-50%)
 
 .navbar
@@ -15,8 +14,8 @@ align-vertical()
   width 100%
   background: rgba(100, 200, 50, 1)
   color: white
-  z-index: 9
   box-shadow: 0 0 2px rgba(100, 100, 100, .5)
+  z-index: 9
   .left
     absolute left 0 top 0
     height: 100%
@@ -32,8 +31,8 @@ align-vertical()
       absolute: top 10px right 10px
       width: 200px
       background: #efefef
-      z-index: 100
       box-shadow: 0 0 10px #171717
+      z-index: 100
       li
         list-style: none
         font-size: 22px
@@ -41,6 +40,7 @@ align-vertical()
         color: black
     .menu-underlay
       fixed: top 0 right 0 bottom 0 left 0
+      cursor: pointer
   .title
     align-vertical()
     margin-top: 2px
@@ -49,14 +49,13 @@ align-vertical()
     cursor: pointer
   .button
     align-vertical()
-    background: transparent
-    border: none
-    box-shadow: none
     height: 75%
     width: 75%
+    box-shadow: none
+    background: transparent
+    border: none
     margin: 0
-    margin-left: 12.5%
+    margin-left: 0 0 12.5% 0
     padding: 5%
     font-size: 25px
     color: #fff
-
