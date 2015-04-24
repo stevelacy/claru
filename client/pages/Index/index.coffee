@@ -2,8 +2,8 @@
 
 Model = require '../../models/Item'
 NavBar = require '../../components/NavBar'
-ActionButton = require '../../components/ActionButton/ActionButton'
-Toast = require '../../components/Toast/Toast'
+ActionButton = require '../../components/ActionButton'
+Toast = require '../../components/Toast'
 ItemView = require './Item'
 
 {div, button} = DOM
@@ -16,14 +16,17 @@ module.exports = collectionView
   collection:
     model: Model
   itemView: ItemView
+
   init: ->
     disconnect: false
+
   newItem: ->
     m = new Model()
     m.save null,
       wait: true
-      success: (m, res) ->
-        window.location = "/item/#{res._id}"
+      success: (m, res) =>
+        @transitionTo "/item/#{res._id}"
+
   reconnect: ->
     window.location = '/'
 
@@ -39,8 +42,6 @@ module.exports = collectionView
 
   render: ->
     div className: 'main index',
-      # NavBar home: true
-
       ActionButton
         onClick: @newItem
         children: '+'

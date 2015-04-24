@@ -1,9 +1,9 @@
 {router} = require 'fission'
 
 Application = require './pages/Application'
-Index = require './pages/Index/View'
-Login = require './pages/Login/View'
-Item = require './pages/Item/View'
+Index = require './pages/Index'
+Login = require './pages/Login'
+Item = require './pages/Item'
 
 
 module.exports = router

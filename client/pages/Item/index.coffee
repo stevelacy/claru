@@ -18,6 +18,7 @@ module.exports = modelView
       message: ''
       disconnect: true
     return o
+
   mounted: ->
     window.socket.on 'disconnect', =>
       if @isMounted()

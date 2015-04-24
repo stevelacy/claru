@@ -34,7 +34,7 @@ module.exports = view
         , 2000
 
   mounted: ->
-    # @refs.email.getDOMNode().focus()
+    @refs.email.getDOMNode().focus()
 
   render: ->
     div className: 'main login',
