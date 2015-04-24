@@ -1,6 +1,9 @@
 request = require 'superagent'
+fastclick = require 'fastclick'
 io = require 'socket.io-client'
 router = require './router'
+
+fastclick document.body
 
 window.socket = io '',
   query: "token=#{window.token}"

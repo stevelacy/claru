@@ -41,6 +41,7 @@
     "browserify": "^5.10.1",
     "coffee-script": "^1.7.1",
     "coffeeify": "^0.7.0",
+    "fastclick": "^1.0.6",
     "fission": "fissionjs/fission",
     "gulp": "*",
     "gulp-autowatch": "0.0.1",
