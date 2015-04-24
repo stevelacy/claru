@@ -44,7 +44,7 @@ module.exports = component({
 
 
 
-},{"fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/components/NavBar/NavBar.coffee":[function(require,module,exports){
+},{"fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/components/NavBar/index.coffee":[function(require,module,exports){
 var DOM, a, button, component, div, h1, header, li, logout, p, ref, span;
 
 ref = require('fission'), component = ref.component, DOM = ref.DOM;
@@ -60,13 +60,16 @@ module.exports = component({
       openMenu: false
     };
   },
-  goHome: function() {
+  goBack: function() {
     return window.history.back();
   },
   toggleMenu: function() {
     return this.setState({
       openMenu: !this.state.openMenu
     });
+  },
+  reload: function() {
+    return window.location.reload();
   },
   logout: function() {
     return logout();
@@ -76,13 +79,14 @@ module.exports = component({
       className: 'navbar'
     }, div({
       className: 'left'
-    }, !this.props.home ? button({
+    }, this.props.back ? button({
       className: 'button back',
-      onClick: this.goHome
+      onClick: this.goBack
     }, '❬') : void 0), div({
       className: 'center'
     }, div({
-      className: 'title'
+      className: 'title',
+      onClick: this.reload
     }, window._config.title)), div({
       className: 'right'
     }, button({
@@ -102,6 +106,34 @@ module.exports = component({
 
 
 },{"../../lib/logout":"/www/node/claru/client/lib/logout.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/components/Toast/Toast.coffee":[function(require,module,exports){
+var DOM, component, div, ref;
+
+ref = require('fission'), component = ref.component, DOM = ref.DOM;
+
+div = DOM.div;
+
+module.exports = component({
+  init: function() {
+    return {
+      opacity: 1
+    };
+  },
+  mounted: function() {},
+  render: function() {
+    return div({
+      className: 'toast'
+    }, div({
+      className: 'title'
+    }, this.props.title), div({
+      className: 'right',
+      onClick: this.props.onClick
+    }, this.props.children));
+  }
+});
+
+
+
+},{"fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/components/Toast/index.coffee":[function(require,module,exports){
 var DOM, component, div, ref;
 
 ref = require('fission'), component = ref.component, DOM = ref.DOM;
@@ -187,7 +219,28 @@ module.exports = function(method, model, options) {
 
 
 
-},{"ampersand-sync":"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js"}],"/www/node/claru/client/pages/Index/Item.coffee":[function(require,module,exports){
+},{"ampersand-sync":"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js"}],"/www/node/claru/client/pages/Application/index.coffee":[function(require,module,exports){
+var ChildView, DOM, NavBar, div, ref, view;
+
+ref = require('fission'), view = ref.view, ChildView = ref.ChildView, DOM = ref.DOM;
+
+NavBar = require('../../components/NavBar');
+
+div = DOM.div;
+
+module.exports = view({
+  render: function() {
+    return div({
+      className: 'application'
+    }, NavBar({
+      back: !!~this.getPath().indexOf('item')
+    }), ChildView());
+  }
+});
+
+
+
+},{"../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Index/Item.coffee":[function(require,module,exports){
 var DOM, Model, button, div, modelView, ref;
 
 ref = require('fission'), modelView = ref.modelView, DOM = ref.DOM;
@@ -214,7 +267,7 @@ module.exports = modelView({
     }, this.model.title), button({
       className: 'destroy',
       onClick: this.destroy
-    }, 'x'));
+    }, '×'));
   }
 });
 
@@ -227,7 +280,7 @@ ref = require('fission'), collectionView = ref.collectionView, DOM = ref.DOM;
 
 Model = require('../../models/Item');
 
-NavBar = require('../../components/NavBar/NavBar');
+NavBar = require('../../components/NavBar');
 
 ActionButton = require('../../components/ActionButton/ActionButton');
 
@@ -252,8 +305,7 @@ module.exports = collectionView({
   itemView: ItemView,
   init: function() {
     return {
-      disconnect: false,
-      openModal: false
+      disconnect: false
     };
   },
   newItem: function() {
@@ -297,9 +349,7 @@ module.exports = collectionView({
   render: function() {
     return div({
       className: 'main index'
-    }, NavBar({
-      home: true
-    }), ActionButton({
+    }, ActionButton({
       onClick: this.newItem,
       children: '+',
       style: {
@@ -320,16 +370,14 @@ module.exports = collectionView({
 
 
 
-},{"../../components/ActionButton/ActionButton":"/www/node/claru/client/components/ActionButton/ActionButton.coffee","../../components/NavBar/NavBar":"/www/node/claru/client/components/NavBar/NavBar.coffee","../../components/Toast/Toast":"/www/node/claru/client/components/Toast/Toast.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","./Item":"/www/node/claru/client/pages/Index/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Item/View.coffee":[function(require,module,exports){
-var DOM, Model, NavBar, Toast, button, div, input, modelView, ref, textarea;
+},{"../../components/ActionButton/ActionButton":"/www/node/claru/client/components/ActionButton/ActionButton.coffee","../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","../../components/Toast/Toast":"/www/node/claru/client/components/Toast/Toast.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","./Item":"/www/node/claru/client/pages/Index/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Item/View.coffee":[function(require,module,exports){
+var DOM, Model, Toast, button, div, input, modelView, ref, textarea;
 
 ref = require('fission'), modelView = ref.modelView, DOM = ref.DOM;
 
 Model = require('../../models/Item');
 
-NavBar = require('../../components/NavBar/NavBar');
-
-Toast = require('../../components/Toast/Toast');
+Toast = require('../../components/Toast');
 
 div = DOM.div, input = DOM.input, textarea = DOM.textarea, button = DOM.button;
 
@@ -425,7 +473,7 @@ module.exports = modelView({
     }
     return div({
       className: 'main item'
-    }, NavBar(), div({
+    }, div({
       className: 'page'
     }, input({
       type: 'text',
@@ -446,7 +494,7 @@ module.exports = modelView({
 
 
 
-},{"../../components/NavBar/NavBar":"/www/node/claru/client/components/NavBar/NavBar.coffee","../../components/Toast/Toast":"/www/node/claru/client/components/Toast/Toast.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Login/View.coffee":[function(require,module,exports){
+},{"../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Login/View.coffee":[function(require,module,exports){
 var DOM, a, br, button, div, form, h1, img, input, ref, request, view;
 
 request = require('superagent');
@@ -543,9 +591,11 @@ module.exports = view({
 
 
 },{"fission":"/www/node/claru/node_modules/fission/index.js","superagent":"/www/node/claru/node_modules/superagent/lib/client.js"}],"/www/node/claru/client/router.coffee":[function(require,module,exports){
-var Index, Item, Login, router;
+var Application, Index, Item, Login, router;
 
 router = require('fission').router;
+
+Application = require('./pages/Application');
 
 Index = require('./pages/Index/View');
 
@@ -554,23 +604,28 @@ Login = require('./pages/Login/View');
 Item = require('./pages/Item/View');
 
 module.exports = router({
-  login: {
-    path: 'login',
-    view: Login
-  },
-  item: {
-    path: 'item/:itemId',
-    view: Item
-  },
   app: {
     path: '/',
-    view: Index
+    view: Application,
+    defaultChild: {
+      view: Index
+    },
+    children: {
+      login: {
+        path: 'login',
+        view: Login
+      },
+      item: {
+        path: 'item/:itemId',
+        view: Item
+      }
+    }
   }
 });
 
 
 
-},{"./pages/Index/View":"/www/node/claru/client/pages/Index/View.coffee","./pages/Item/View":"/www/node/claru/client/pages/Item/View.coffee","./pages/Login/View":"/www/node/claru/client/pages/Login/View.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
+},{"./pages/Application":"/www/node/claru/client/pages/Application/index.coffee","./pages/Index/View":"/www/node/claru/client/pages/Index/View.coffee","./pages/Item/View":"/www/node/claru/client/pages/Item/View.coffee","./pages/Login/View":"/www/node/claru/client/pages/Login/View.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-sync"] = window.ampersand["ampersand-sync"] || [];  window.ampersand["ampersand-sync"].push("3.0.7");}
 var result = require('lodash.result');
 var defaults = require('lodash.defaults');
