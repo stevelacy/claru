@@ -6,5 +6,5 @@ NavBar = require '../../components/NavBar'
 module.exports = view
   render: ->
     div className: 'application',
-      NavBar back: !!~@getPath().indexOf 'item'
+      NavBar back: ~@getPath().indexOf 'item'
       ChildView()
