@@ -4,7 +4,9 @@ NavBar = require '../../components/NavBar'
 {div} = DOM
 
 module.exports = view
+  displayName: 'Application'
   render: ->
     div className: 'application',
-      NavBar back: ~@getPath().indexOf 'item'
+      if !~@getPath().indexOf 'login'
+        NavBar back: ~@getPath().indexOf 'item'
       ChildView()
