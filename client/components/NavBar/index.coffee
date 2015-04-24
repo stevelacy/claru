@@ -8,10 +8,15 @@ module.exports = component
   init: ->
     o =
       openMenu: false
-  goHome: ->
+
+  goBack: ->
     window.history.back()
+
   toggleMenu: ->
     @setState openMenu: !@state.openMenu
+
+  reload: ->
+    window.location.reload()
 
   logout: ->
     logout()
@@ -19,13 +24,16 @@ module.exports = component
   render: ->
     div className: 'navbar',
       div className: 'left',
-        if !@props.home
+        if @props.back
           button
             className: 'button back'
-            onClick: @goHome
+            onClick: @goBack
             , '❬'
       div className: 'center',
-        div className: 'title', window._config.title
+        div
+          className: 'title'
+          onClick: @reload
+          window._config.title
 
       div className: 'right',
         button
