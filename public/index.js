@@ -191,7 +191,42 @@ module.exports = function(method, model, options) {
 
 
 
-},{"ampersand-sync":"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js"}],"/www/node/claru/client/pages/Application/index.coffee":[function(require,module,exports){
+},{"ampersand-sync":"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js"}],"/www/node/claru/client/router.coffee":[function(require,module,exports){
+var Application, Index, Item, Login, router;
+
+router = require('fission').router;
+
+Application = require('./views/Application');
+
+Index = require('./views/Index');
+
+Login = require('./views/Login');
+
+Item = require('./views/Item');
+
+module.exports = router({
+  app: {
+    path: '/',
+    view: Application,
+    defaultChild: {
+      view: Index
+    },
+    children: {
+      login: {
+        path: 'login',
+        view: Login
+      },
+      item: {
+        path: 'item/:itemId',
+        view: Item
+      }
+    }
+  }
+});
+
+
+
+},{"./views/Application":"/www/node/claru/client/views/Application/index.coffee","./views/Index":"/www/node/claru/client/views/Index/index.coffee","./views/Item":"/www/node/claru/client/views/Item/index.coffee","./views/Login":"/www/node/claru/client/views/Login/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Application/index.coffee":[function(require,module,exports){
 var ChildView, DOM, NavBar, div, ref, view;
 
 ref = require('fission'), view = ref.view, ChildView = ref.ChildView, DOM = ref.DOM;
@@ -213,7 +248,7 @@ module.exports = view({
 
 
 
-},{"../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Index/Item.coffee":[function(require,module,exports){
+},{"../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Index/Item.coffee":[function(require,module,exports){
 var DOM, Model, button, div, modelView, ref;
 
 ref = require('fission'), modelView = ref.modelView, DOM = ref.DOM;
@@ -246,7 +281,7 @@ module.exports = modelView({
 
 
 
-},{"../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Index/index.coffee":[function(require,module,exports){
+},{"../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Index/index.coffee":[function(require,module,exports){
 var ActionButton, DOM, ItemView, Model, NavBar, Toast, button, collectionView, div, ref;
 
 ref = require('fission'), collectionView = ref.collectionView, DOM = ref.DOM;
@@ -345,7 +380,7 @@ module.exports = collectionView({
 
 
 
-},{"../../components/ActionButton":"/www/node/claru/client/components/ActionButton/index.coffee","../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","./Item":"/www/node/claru/client/pages/Index/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Item/index.coffee":[function(require,module,exports){
+},{"../../components/ActionButton":"/www/node/claru/client/components/ActionButton/index.coffee","../../components/NavBar":"/www/node/claru/client/components/NavBar/index.coffee","../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","./Item":"/www/node/claru/client/views/Index/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Item/index.coffee":[function(require,module,exports){
 var DOM, Model, Toast, button, div, input, modelView, ref, textarea;
 
 ref = require('fission'), modelView = ref.modelView, DOM = ref.DOM;
@@ -469,7 +504,7 @@ module.exports = modelView({
 
 
 
-},{"../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/pages/Login/index.coffee":[function(require,module,exports){
+},{"../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Login/index.coffee":[function(require,module,exports){
 var DOM, a, br, button, div, form, h1, img, input, ref, request, view;
 
 request = require('superagent');
@@ -567,42 +602,7 @@ module.exports = view({
 
 
 
-},{"fission":"/www/node/claru/node_modules/fission/index.js","superagent":"/www/node/claru/node_modules/superagent/lib/client.js"}],"/www/node/claru/client/router.coffee":[function(require,module,exports){
-var Application, Index, Item, Login, router;
-
-router = require('fission').router;
-
-Application = require('./pages/Application');
-
-Index = require('./pages/Index');
-
-Login = require('./pages/Login');
-
-Item = require('./pages/Item');
-
-module.exports = router({
-  app: {
-    path: '/',
-    view: Application,
-    defaultChild: {
-      view: Index
-    },
-    children: {
-      login: {
-        path: 'login',
-        view: Login
-      },
-      item: {
-        path: 'item/:itemId',
-        view: Item
-      }
-    }
-  }
-});
-
-
-
-},{"./pages/Application":"/www/node/claru/client/pages/Application/index.coffee","./pages/Index":"/www/node/claru/client/pages/Index/index.coffee","./pages/Item":"/www/node/claru/client/pages/Item/index.coffee","./pages/Login":"/www/node/claru/client/pages/Login/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
+},{"fission":"/www/node/claru/node_modules/fission/index.js","superagent":"/www/node/claru/node_modules/superagent/lib/client.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-sync"] = window.ampersand["ampersand-sync"] || [];  window.ampersand["ampersand-sync"].push("3.0.7");}
 var result = require('lodash.result');
 var defaults = require('lodash.defaults');
