@@ -11,6 +11,7 @@ align-vertical()
 .navbar
   fixed top 0 left 0 right 0
   height 10vh
+  min-height: 70px
   width 100%
   background: rgba(100, 200, 50, 1)
   color: white
@@ -59,3 +60,12 @@ align-vertical()
     padding: 5%
     font-size: 25px
     color: #fff
+
+@media all and (min-width: 770px)
+  .navbar
+    background: #fff
+    color: #171717
+    .button
+      color: #171717
+      &.back
+        display: none
