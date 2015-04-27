@@ -5,6 +5,9 @@ request = require 'superagent'
 
 module.exports = view
   displayName: 'Login'
+  statics:
+    willTransitionTo: (transition) ->
+      return transition.redirect '/' if window.token?
   init: ->
     email: ''
     password: ''

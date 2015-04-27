@@ -519,6 +519,13 @@ div = DOM.div, h1 = DOM.h1, button = DOM.button, a = DOM.a, img = DOM.img, br = 
 
 module.exports = view({
   displayName: 'Login',
+  statics: {
+    willTransitionTo: function(transition) {
+      if (window.token != null) {
+        return transition.redirect('/');
+      }
+    }
+  },
   init: function() {
     return {
       email: '',
