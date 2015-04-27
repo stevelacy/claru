@@ -13,11 +13,9 @@ module.exports = modelView
     willTransitionTo: (transition) ->
       return transition.redirect 'login' unless window.token?
   init: ->
-    o =
-      title: ''
-      message: ''
-      disconnect: true
-    return o
+    title: ''
+    message: ''
+    disconnect: true
 
   mounted: ->
     window.socket.on 'disconnect', =>

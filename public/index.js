@@ -184,7 +184,6 @@ Sync = require('ampersand-sync');
 window.token = window.localStorage.getItem('token');
 
 module.exports = function(method, model, options) {
-  console.log(model);
   if (window.token != null) {
     options.headers = {
       'x-access-token': window.token
@@ -271,12 +270,21 @@ module.exports = modelView({
     return this.model.destroy();
   },
   render: function() {
+    var ref1;
     return div({
       className: 'item'
     }, div({
       className: 'title',
+      style: {
+        height: ((ref1 = this.model.message) != null ? ref1.length : void 0) > 10 ? 110 : 60
+      },
       onClick: this.link
-    }, this.model.title), button({
+    }, this.model.title), div({
+      className: 'message',
+      onClick: this.link
+    }, this.model.message, div({
+      className: 'fade'
+    })), button({
       className: 'destroy',
       onClick: this.destroy
     }, '×'));
@@ -407,13 +415,11 @@ module.exports = modelView({
     }
   },
   init: function() {
-    var o;
-    o = {
+    return {
       title: '',
       message: '',
       disconnect: true
     };
-    return o;
   },
   mounted: function() {
     window.socket.on('disconnect', (function(_this) {
