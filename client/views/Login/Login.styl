@@ -8,7 +8,10 @@
 
 
 .main
-  background: linear-gradient(30deg, #373B44 0%, #73C8A9 90%)
+  // background: linear-gradient(30deg, #373B44 0%, #73C8A9 90%)
+  background: url('/img/bg.jpg')
+  background-position: center center
+  background-size: cover
   &.login
     .page
       height: 100vh
@@ -18,10 +21,11 @@
         transition: all .5s
         center()
         margin-top: 15vh
-        padding: 1vh
+        padding: 1vw
         width: 95%
         text-align: center
-        max-width: 800px
+        max-width: 600px
+        background: rgba(250, 250, 250, .9)
         input
           margin: 5px
           width: 90%
@@ -31,7 +35,7 @@
           font-trench()
           width: 90%
           margin: 5%
-          color: white
+          color: greyDark
           font-size: 60px
     @media all and (max-width: 900px)
       .page
