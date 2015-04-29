@@ -143,7 +143,7 @@ var request;
 request = require('superagent');
 
 module.exports = function() {
-  window.localStorage.setItem('token', '');
+  window.localStorage.removeItem('token');
   return request.post(window._config.url + "/logout?token=" + window.token, function(err, res) {
     if (err != null) {
       console.log(err);
