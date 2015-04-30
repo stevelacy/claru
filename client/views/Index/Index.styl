@@ -1,48 +1,48 @@
 @import 'nib'
 
-.main
-  &.index
-    .page
-      min-height: 90vh
-      margin-top: 10vh
-      padding: 5%
-      .items
-        text-align: center
-        .item
-          position: relative
-          width: 100%
-          display: inline-block
-          background: #fff
-          border-bottom: 1px solid #efefef
-          margin: 2px
-          cursor: pointer
-          text-align: left
+.main.index
+  .page
+    min-height: 90vh
+    margin-top: 10vh
+    padding: 5%
+    .items
+      text-align: center
+      .item
+        position: relative
+        width: 100%
+        display: inline-block
+        background: #fff
+        border-bottom: 1px solid #efefef
+        margin: 2px
+        cursor: pointer
+        text-align: left
+        overflow: hidden
+        box-shadow: 0 1px 1px #bababa
+        .title
+          width: 80%
+          padding: 12px
+          font-size: 30px
+        .message
+          absolute: top 58px left right bottom
+          height: 50px
           overflow: hidden
-          box-shadow: 0 1px 1px #bababa
-          .title
-            width: 80%
-            padding: 12px
-            font-size: 30px
-          .message
-            absolute: top 58px left right bottom
+          background: #fff
+          padding: 0 15px 0px
+          white-space: pre
+          .fade
             height: 50px
-            overflow: hidden
-            background: #fff
-            padding: 0 15px 0px
-            white-space: pre
-            .fade
-              height: 50px
-              absolute: top left right bottom
-              box-shadow: inset 0 -100px 50px -80px #fff
-          .destroy
-            absolute: top 0 right 10px
-            font-size: 25px
-            color: red
-            background: transparent
-            box-shadow: none
-            border: 0
-    @media all and (min-width: 770px)
-      .page
-        .items
-          .item
-            width: 50%
+            absolute: top left right bottom
+            box-shadow: inset 0 -100px 50px -80px #fff
+        .destroy
+          absolute: top 0 right 10px
+          font-size: 25px
+          color: red
+          background: transparent
+          box-shadow: none
+          border: 0
+  @media all and (min-width: 770px)
+    .page
+      margin-top: 100px
+      .items
+        .item
+          width: 50%
