@@ -9,5 +9,9 @@ window.socket = io '',
   query: "token=#{window.token}"
 
 request.post "#{window._config.url}/auth?token=#{window.token}", (err, res) ->
-  window._user = res?.body
+  if res.status is 200
+    window._user = res?.body
+  else
+    window.localStorage.removeItem 'token'
+    window.token = undefined
   router.start document.body
