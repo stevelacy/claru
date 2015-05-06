@@ -54,13 +54,13 @@ module.exports = component({
 
 
 },{"fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/components/NavBar/index.coffee":[function(require,module,exports){
-var DOM, a, button, component, div, h1, header, li, logout, p, ref, span;
+var DOM, Link, button, component, div, img, li, logout, ref;
 
-ref = require('fission'), component = ref.component, DOM = ref.DOM;
+ref = require('fission'), component = ref.component, DOM = ref.DOM, Link = ref.Link;
 
 logout = require('../../lib/logout');
 
-header = DOM.header, h1 = DOM.h1, li = DOM.li, a = DOM.a, div = DOM.div, span = DOM.span, p = DOM.p, button = DOM.button;
+li = DOM.li, div = DOM.div, img = DOM.img, button = DOM.button;
 
 module.exports = component({
   init: function() {
@@ -101,7 +101,13 @@ module.exports = component({
     }, button({
       onClick: this.toggleMenu,
       className: 'button settings'
-    }, '⋮'), this.state.openMenu ? div({
+    }, '⋮'), div({
+      className: 'icons'
+    }, Link({
+      to: 'search'
+    }, img({
+      src: '/img/search.png'
+    }))), this.state.openMenu ? div({
       className: 'menu-underlay',
       onClick: this.toggleMenu
     }, div({
@@ -200,11 +206,13 @@ module.exports = function(method, model, options) {
 
 
 },{"ampersand-sync":"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js"}],"/www/node/claru/client/router.coffee":[function(require,module,exports){
-var Application, Index, Item, Login, router;
+var Application, Index, Item, Login, Search, router;
 
 router = require('fission').router;
 
 Application = require('./views/Application');
+
+Search = require('./views/Search');
 
 Index = require('./views/Index');
 
@@ -227,6 +235,10 @@ module.exports = router({
       item: {
         path: 'item/:itemId',
         view: Item
+      },
+      search: {
+        path: 'search',
+        view: Search
       }
     }
   }
@@ -234,7 +246,7 @@ module.exports = router({
 
 
 
-},{"./views/Application":"/www/node/claru/client/views/Application/index.coffee","./views/Index":"/www/node/claru/client/views/Index/index.coffee","./views/Item":"/www/node/claru/client/views/Item/index.coffee","./views/Login":"/www/node/claru/client/views/Login/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Application/index.coffee":[function(require,module,exports){
+},{"./views/Application":"/www/node/claru/client/views/Application/index.coffee","./views/Index":"/www/node/claru/client/views/Index/index.coffee","./views/Item":"/www/node/claru/client/views/Item/index.coffee","./views/Login":"/www/node/claru/client/views/Login/index.coffee","./views/Search":"/www/node/claru/client/views/Search/index.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/client/views/Application/index.coffee":[function(require,module,exports){
 var ChildView, DOM, NavBar, div, ref, view;
 
 ref = require('fission'), view = ref.view, ChildView = ref.ChildView, DOM = ref.DOM;
@@ -249,7 +261,7 @@ module.exports = view({
     return div({
       className: 'application'
     }, !~this.getPath().indexOf('login') ? NavBar({
-      back: ~this.getPath().indexOf('item')
+      back: (~this.getPath().indexOf('item')) || (~this.getPath().indexOf('search'))
     }) : void 0, ChildView());
   }
 });
@@ -624,7 +636,128 @@ module.exports = view({
 
 
 
-},{"fission":"/www/node/claru/node_modules/fission/index.js","superagent":"/www/node/claru/node_modules/superagent/lib/client.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
+},{"fission":"/www/node/claru/node_modules/fission/index.js","superagent":"/www/node/claru/node_modules/superagent/lib/client.js"}],"/www/node/claru/client/views/Search/index.coffee":[function(require,module,exports){
+var DOM, Link, Model, Toast, button, div, input, modelView, ref, textarea;
+
+ref = require('fission'), modelView = ref.modelView, DOM = ref.DOM, Link = ref.Link;
+
+Model = require('../../models/Item');
+
+Toast = require('../../components/Toast');
+
+div = DOM.div, input = DOM.input, textarea = DOM.textarea, button = DOM.button;
+
+module.exports = modelView({
+  displayName: 'Search',
+  model: Model,
+  routeIdAttribute: 'itemId',
+  statics: {
+    willTransitionTo: function(transition) {
+      if (window.token == null) {
+        return transition.redirect('login');
+      }
+    }
+  },
+  init: function() {
+    return {
+      term: '',
+      items: []
+    };
+  },
+  mounted: function() {
+    window.socket.on('disconnect', (function(_this) {
+      return function() {
+        if (_this.isMounted()) {
+          return _this.setState({
+            disconnect: true
+          });
+        }
+      };
+    })(this));
+    window.socket.on('connect', (function(_this) {
+      return function() {
+        if (_this.isMounted()) {
+          return _this.setState({
+            disconnect: false
+          });
+        }
+      };
+    })(this));
+    if (window.socket.connected) {
+      this.setState({
+        disconnect: false
+      });
+    }
+    window.socket.on('update', (function(_this) {
+      return function(arg) {
+        var data;
+        data = arg.data;
+        _this.model.message = data.message;
+        return _this.model.title = data.title;
+      };
+    })(this));
+    return window.socket.on('search', (function(_this) {
+      return function(data) {
+        return _this.setState({
+          items: data
+        });
+      };
+    })(this));
+  },
+  search: function(e) {
+    this.setState({
+      term: e.target.value
+    });
+    return window.socket.emit('search', {
+      term: this.state.term
+    });
+  },
+  reconnect: function() {
+    return window.location.reload();
+  },
+  render: function() {
+    if (this.model == null) {
+      return null;
+    }
+    return div({
+      className: 'main search'
+    }, div({
+      className: 'page'
+    }, input({
+      type: 'text',
+      value: this.term,
+      onChange: this.search,
+      placeholder: 'Search'
+    }), div({
+      className: 'items'
+    }, this.state.items.map(function(item) {
+      var ref1;
+      return div({
+        className: 'item'
+      }, div({
+        className: 'title',
+        style: {
+          height: ((ref1 = item.message) != null ? ref1.length : void 0) > 10 ? 110 : 60
+        }
+      }, Link({
+        to: "/item/" + item._id
+      }, item.title)), Link({
+        className: 'message',
+        to: "/item/" + item._id
+      }, item.message, div({
+        className: 'fade'
+      })));
+    })), this.state.disconnect ? Toast({
+      title: 'Error: disconnected'
+    }, button({
+      onClick: this.reconnect
+    }, 'Reconnect')) : void 0));
+  }
+});
+
+
+
+},{"../../components/Toast":"/www/node/claru/client/components/Toast/index.coffee","../../models/Item":"/www/node/claru/client/models/Item.coffee","fission":"/www/node/claru/node_modules/fission/index.js"}],"/www/node/claru/node_modules/ampersand-sync/ampersand-sync.js":[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-sync"] = window.ampersand["ampersand-sync"] || [];  window.ampersand["ampersand-sync"].push("3.0.7");}
 var result = require('lodash.result');
 var defaults = require('lodash.defaults');

@@ -42,4 +42,14 @@ io.on 'connection', (socket) ->
           log.error err if err?
           socket.broadcast.to(user._id).emit 'update', data: doc
 
+    socket.on 'search', (data) ->
+      return unless data?.term?
+      q =
+        title:
+          $regex: data.term
+          $options: 'i'
+
+      Item.find q, (err, items) ->
+        socket.emit 'search', items
+
 module.exports = io

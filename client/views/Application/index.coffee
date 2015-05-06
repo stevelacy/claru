@@ -8,5 +8,5 @@ module.exports = view
   render: ->
     div className: 'application',
       if !~@getPath().indexOf 'login'
-        NavBar back: ~@getPath().indexOf 'item'
+        NavBar back: (~@getPath().indexOf 'item') or (~@getPath().indexOf 'search')
       ChildView()
