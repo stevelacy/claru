@@ -1,7 +1,7 @@
-{component, DOM} = require 'fission'
+{component, DOM, Link} = require 'fission'
 logout = require '../../lib/logout'
 
-{header, h1, li, a, div, span, p, button} = DOM
+{li, div, img, button} = DOM
 
 module.exports = component
   init: ->
@@ -38,6 +38,11 @@ module.exports = component
         button
           onClick: @toggleMenu
           className: 'button settings', '⋮'
+        div className: 'icons',
+          Link
+            to: 'search',
+            img
+              src: '/img/search.png'
 
         # menu
         if @state.openMenu
@@ -46,4 +51,3 @@ module.exports = component
             onClick: @toggleMenu,
             div className: 'menu',
               li onClick: @logout, 'logout'
-
