@@ -48,6 +48,8 @@ io.on 'connection', (socket) ->
         title:
           $regex: data.term
           $options: 'i'
+        user: user._id
+        deleted: false
 
       Item.find q, (err, items) ->
         socket.emit 'search', items

@@ -3,5 +3,5 @@
 window._config = {
   name: 'Claru',
   title: 'Claru',
-  url: 'http://claru.slacy.me'
+  url: 'http://localhost:5000'
 };
