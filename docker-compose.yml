@@ -1,0 +1,9 @@
+app:
+  image: 'factoryx/nodejs:4.1.1'
+  restart: always
+  command: 'node /www/app/server'
+  environment:
+    NODE_ENV: 'production'
+  volumes:
+    - .:/www/app/
+  net: 'host'
