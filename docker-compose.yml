@@ -1,9 +1,10 @@
 app:
-  image: 'factoryx/nodejs:4.1.1'
+  build: './docker'
   restart: always
   command: 'node /www/app/server'
   environment:
     NODE_ENV: 'production'
+    LD_LIBRARY_PATH: '/usr/lib/x86_64-linux-gnu'
   volumes:
     - .:/www/app/
   net: 'host'
